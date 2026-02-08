@@ -107,16 +107,6 @@ export function StartMenu({ onClose }: StartMenuProps) {
       <MenuContent>
         <StyledMenuItem
           onClick={() =>
-            handleOpen("paintings", isEvil ? "M̷y P̵a̸i̶n̷t̸i̷n̸g̷s̶" : "My Paintings", "gallery", {
-              galleryType: "paintings",
-            })
-          }
-        >
-          <MenuIcon>🎨</MenuIcon>
-          {isEvil ? "M̷y P̵a̸i̶n̷t̸i̷n̸g̷s̶" : "My Paintings"}
-        </StyledMenuItem>
-        <StyledMenuItem
-          onClick={() =>
             handleOpen("mspaint", isEvil ? "M̸S̷ P̵a̶i̸n̷t̸" : "MS Paint", "gallery", {
               galleryType: "mspaint",
             })
@@ -141,24 +131,6 @@ export function StartMenu({ onClose }: StartMenuProps) {
         >
           <MenuIcon>📝</MenuIcon>
           {isEvil ? "A̷b̸o̵u̶t̸ M̷e̵" : "About Me"}
-        </StyledMenuItem>
-        <StyledMenuItem
-          onClick={() => handleOpen("guestbook", isEvil ? "G̵u̸e̷s̶t̵b̶o̸o̵k̷" : "Guestbook", "guestbook")}
-        >
-          <MenuIcon>📖</MenuIcon>
-          {isEvil ? "G̵u̸e̷s̶t̵b̶o̸o̵k̷" : "Guestbook"}
-        </StyledMenuItem>
-        <StyledMenuItem
-          onClick={() => handleOpen("links", isEvil ? "C̸o̵o̶l̷ L̶i̸n̷k̶s̵" : "Cool Links", "links")}
-        >
-          <MenuIcon>🔗</MenuIcon>
-          {isEvil ? "C̸o̵o̶l̷ L̶i̸n̷k̶s̵" : "Cool Links"}
-        </StyledMenuItem>
-        <StyledMenuItem
-          onClick={() => handleOpen("contact", isEvil ? "C̶o̸n̵t̷a̶c̵t̸" : "Contact Me", "contact")}
-        >
-          <MenuIcon>💌</MenuIcon>
-          {isEvil ? "C̶o̸n̵t̷a̶c̵t̸" : "Contact Me"}
         </StyledMenuItem>
         <Separator />
         {isEvil ? (

@@ -9,13 +9,6 @@ export interface DesktopIconConfig {
 
 export const desktopIcons: DesktopIconConfig[] = [
   {
-    id: "paintings",
-    label: "My Paintings",
-    windowTitle: "My Paintings",
-    componentKey: "gallery",
-    icon: "🎨",
-  },
-  {
     id: "mspaint",
     label: "MS Paint",
     windowTitle: "MS Paint",
@@ -36,26 +29,5 @@ export const desktopIcons: DesktopIconConfig[] = [
     componentKey: "about",
     icon: "📝",
     size: { width: 480, height: 520 },
-  },
-  {
-    id: "guestbook",
-    label: "Guestbook",
-    windowTitle: "Guestbook",
-    componentKey: "guestbook",
-    icon: "📖",
-  },
-  {
-    id: "links",
-    label: "Cool Links",
-    windowTitle: "Cool Links",
-    componentKey: "links",
-    icon: "🔗",
-  },
-  {
-    id: "contact",
-    label: "Contact Me",
-    windowTitle: "Contact Me",
-    componentKey: "contact",
-    icon: "💌",
   },
 ];
