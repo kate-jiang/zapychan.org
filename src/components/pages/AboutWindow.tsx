@@ -27,38 +27,55 @@ const Section = styled.p`
   font-size: 13px;
 `;
 
+const ImageRow = styled.div`
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin: 12px 0;
+  height: 200px;
+`;
+
+const AboutImage = styled.img`
+  height: 100%;
+  width: auto;
+  border: 2px solid #ff69b4;
+  object-fit: cover;
+`;
+
 export function AboutWindow() {
   return (
     <Wrapper>
-      <Title>~*~ About zapychan ~*~</Title>
-      <Divider>♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥</Divider>
-      <Section>
-        hi!! im zapychan and this is my little corner of the internet~ ♥
-      </Section>
-      <Section>
-        i'm an artist who loves painting and digital art! i've been making art
-        for as long as i can remember and i love creating colorful, expressive
-        pieces that make people feel something~
-      </Section>
-      <Section>
-        when i'm not painting, you can find me exploring new digital art techniques,
-        collecting cute stickers, and drinking way too much boba tea 🧋
-      </Section>
+      <ImageRow>
+        <AboutImage src="/images/zapy.png" alt="zapy" />
+        <AboutImage src="/images/zapy2.png" alt="zapy seal drawing" />
+      </ImageRow>
       <Divider>✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</Divider>
       <Section>
-        <strong>Fun facts:</strong>
-        <br />
-        ✿ favorite color: pink (obviously lol)
-        <br />
-        ✿ favorite medium: oil paint + procreate
-        <br />
-        ✿ favorite snack: strawberry pocky
-        <br />
-        ✿ favorite music: city pop + shoegaze
+        hi im zapy. welcome to my website! here you can see my portfolio of
+        mostly ms paint art dating back to 2022. importantly, i have
+        transitioned from using a mouse to using an ipad and paintbrush, but i
+        will always consider myself an ms paint artist at heart. if you are lost
+        or confused, remember that the medium is the message.
+      </Section>
+      <Section>
+        i am mostly self taught with two exceptions: one extraordinary art
+        teacher i had as a kid and bob ross. for anyone looking to learn how to
+        make art, i cannot recommend the teachings of bob ross enough.
+      </Section>
+      <Section>
+        i would like to thank my dear friend kate for creating this lovely
+        website for me. without her the beauty of this medium would not have
+        been possible.
       </Section>
       <Divider>♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥</Divider>
-      <Section style={{ textAlign: "center", fontSize: 11 }}>
-        thanks for visiting my site!! (ﾉ◕ヮ◕)ﾉ*:・゚✧
+      <Section>
+        if you are interested in commissioning me or buying my art, please
+        contact me at{" "}
+        <a href="mailto:zapychan@proton.me" style={{ color: "#ff1493" }}>
+          zapychan@proton.me
+        </a>
       </Section>
     </Wrapper>
   );
