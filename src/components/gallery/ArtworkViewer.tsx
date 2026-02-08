@@ -26,11 +26,12 @@ const ImageContainer = styled.div`
   overflow: hidden;
 
   img {
+    min-width: 100%;
+    min-height: 100%;
     max-width: 100%;
     max-height: 100%;
     display: block;
     object-fit: contain;
-    border: 3px solid #ff69b4;
   }
 `;
 
