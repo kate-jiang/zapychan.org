@@ -17,10 +17,7 @@ const PAGE_SIZE = 20;
 
 const Grid = styled.div<{ $isMobile: boolean }>`
   display: grid;
-  grid-template-columns: repeat(
-    ${({ $isMobile }) => ($isMobile ? 2 : 3)},
-    1fr
-  );
+  grid-template-columns: repeat(auto-fill, minmax(${({ $isMobile }) => ($isMobile ? "120px" : "150px")}, 1fr));
   gap: 12px;
   padding: 4px;
   align-items: start;
