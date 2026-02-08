@@ -1,0 +1,68 @@
+import { useMemo } from "react";
+import styled from "styled-components";
+import { Toolbar, Button } from "react95";
+import { paintings } from "../../data/paintings";
+import { digitalWorks } from "../../data/digitalWorks";
+import { GalleryGrid } from "./GalleryGrid";
+
+interface GalleryWindowProps {
+  windowId: string;
+  props?: Record<string, unknown>;
+}
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const GalleryToolbar = styled(Toolbar)`
+  flex-shrink: 0;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+`;
+
+const ContentArea = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+`;
+
+const Title = styled.div`
+  text-align: center;
+  color: #ff1493;
+  font-size: 11px;
+  padding: 4px 0;
+  font-weight: bold;
+`;
+
+export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
+  const galleryType = (props?.galleryType as string) || "paintings";
+  const artworks = useMemo(
+    () => (galleryType === "paintings" ? paintings : digitalWorks),
+    [galleryType],
+  );
+
+  const title =
+    galleryType === "paintings" ? "🎨 My Paintings" : "💻 Digital Works";
+
+  return (
+    <Wrapper>
+      <GalleryToolbar>
+        <Button variant="thin" size="sm" disabled>
+          View
+        </Button>
+        <Button variant="thin" size="sm" disabled>
+          Sort
+        </Button>
+        <Title style={{ flex: 1 }}>
+          {title} ({artworks.filter((a) => !a.evilOnly).length} works)
+        </Title>
+      </GalleryToolbar>
+      <ContentArea>
+        <GalleryGrid artworks={artworks} windowId={windowId} />
+      </ContentArea>
+    </Wrapper>
+  );
+}
