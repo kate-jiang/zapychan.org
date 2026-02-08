@@ -24,6 +24,7 @@ type Action =
       id: string;
       title: string;
       componentKey: string;
+      size?: { width: number; height: number };
       props?: Record<string, unknown>;
     };
   }
@@ -66,12 +67,13 @@ function reducer(state: State, action: Action): State {
         };
       }
       cascadeOffset = (cascadeOffset + 1) % 8;
+      const defaultSize = { width: 600, height: 600 };
       const newWindow: WindowState = {
         id: action.payload.id,
         title: action.payload.title,
         componentKey: action.payload.componentKey,
         position: { x: 60 + cascadeOffset * 30, y: 40 + cascadeOffset * 30 },
-        size: { width: 600, height: 600 },
+        size: action.payload.size ?? defaultSize,
         zIndex: state.nextZIndex,
         isMinimized: false,
         props: action.payload.props,
@@ -132,6 +134,7 @@ interface WindowManagerContextValue {
     title: string,
     componentKey: string,
     props?: Record<string, unknown>,
+    size?: { width: number; height: number },
   ) => void;
   closeWindow: (id: string) => void;
   focusWindow: (id: string) => void;
@@ -153,10 +156,11 @@ export function WindowManagerProvider({ children }: { children: ReactNode }) {
       title: string,
       componentKey: string,
       props?: Record<string, unknown>,
+      size?: { width: number; height: number },
     ) => {
       dispatch({
         type: "OPEN_WINDOW",
-        payload: { id, title, componentKey, props },
+        payload: { id, title, componentKey, props, size },
       });
     },
     [],

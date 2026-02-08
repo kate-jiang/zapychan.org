@@ -4,6 +4,7 @@ export interface DesktopIconConfig {
   windowTitle: string;
   componentKey: string;
   icon: string;
+  size?: { width: number; height: number };
 }
 
 export const desktopIcons: DesktopIconConfig[] = [
@@ -34,6 +35,7 @@ export const desktopIcons: DesktopIconConfig[] = [
     windowTitle: "About Me",
     componentKey: "about",
     icon: "📝",
+    size: { width: 480, height: 520 },
   },
   {
     id: "guestbook",

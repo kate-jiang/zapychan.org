@@ -13,12 +13,14 @@ const StyledWindow = styled(Window) <{
   $isMobile: boolean;
   $x: number;
   $y: number;
+  $width: number;
+  $height: number;
   $zIndex: number;
 }>`
   position: ${({ $isMobile }) => ($isMobile ? "fixed" : "absolute")};
   display: flex;
   flex-direction: column;
-  ${({ $isMobile, $x, $y }) =>
+  ${({ $isMobile, $x, $y, $width, $height }) =>
     $isMobile
       ? `
     top: 0;
@@ -31,8 +33,8 @@ const StyledWindow = styled(Window) <{
       : `
     top: ${$y}px;
     left: ${$x}px;
-    width: 600px;
-    height: 600px;
+    width: ${$width}px;
+    height: ${$height}px;
     min-height: 300px;
     max-width: calc(100vw - 20px);
     max-height: calc(100vh - 60px);
@@ -129,6 +131,8 @@ export function ManagedWindow({ windowState, children }: ManagedWindowProps) {
       $isMobile={isMobile}
       $x={windowState.position.x}
       $y={windowState.position.y}
+      $width={windowState.size.width}
+      $height={windowState.size.height}
       $zIndex={windowState.zIndex}
       onMouseDown={handleMouseDown}
     >

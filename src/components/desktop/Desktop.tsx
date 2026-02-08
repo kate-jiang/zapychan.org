@@ -102,12 +102,12 @@ export function Desktop() {
   }
 
   const handleIconOpen = useCallback(
-    (id: string, title: string, componentKey: string) => {
+    (id: string, title: string, componentKey: string, size?: { width: number; height: number }) => {
       const props: Record<string, unknown> = {};
       if (componentKey === "gallery") {
         props.galleryType = id;
       }
-      openWindow(id, title, componentKey, props);
+      openWindow(id, title, componentKey, props, size);
     },
     [openWindow],
   );
@@ -141,7 +141,7 @@ export function Desktop() {
               label={icon.label}
               icon={icon.icon}
               onDoubleClick={() =>
-                handleIconOpen(icon.id, icon.windowTitle, icon.componentKey)
+                handleIconOpen(icon.id, icon.windowTitle, icon.componentKey, icon.size)
               }
             />
           ))}

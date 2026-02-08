@@ -82,8 +82,8 @@ export function StartMenu({ onClose }: StartMenuProps) {
   const { isEvil, toggleEvil, disableEvil } = useEvilMode();
 
   const handleOpen = useCallback(
-    (id: string, title: string, componentKey: string, props?: Record<string, unknown>) => {
-      openWindow(id, title, componentKey, props);
+    (id: string, title: string, componentKey: string, props?: Record<string, unknown>, size?: { width: number; height: number }) => {
+      openWindow(id, title, componentKey, props, size);
       onClose();
     },
     [openWindow, onClose],
@@ -137,7 +137,7 @@ export function StartMenu({ onClose }: StartMenuProps) {
         </StyledMenuItem>
         <Separator />
         <StyledMenuItem
-          onClick={() => handleOpen("about", isEvil ? "A̷b̸o̵u̶t̸ M̷e̵" : "About Me", "about")}
+          onClick={() => handleOpen("about", isEvil ? "A̷b̸o̵u̶t̸ M̷e̵" : "About Me", "about", undefined, { width: 480, height: 520 })}
         >
           <MenuIcon>📝</MenuIcon>
           {isEvil ? "A̷b̸o̵u̶t̸ M̷e̵" : "About Me"}
