@@ -1,7 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { AppBar, Toolbar, Button } from "react95";
 import styled from "styled-components";
 import { useWindowManager } from "../../hooks/useWindowManager";
+import { useEvilMode } from "../../hooks/useEvilMode";
 import { StartMenu } from "./StartMenu";
 
 const TaskbarWrapper = styled(AppBar)`
@@ -64,18 +65,32 @@ const Clock = styled.div`
 
 function useTime() {
   const [time, setTime] = useState(new Date());
-  useState(() => {
+  useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 30_000);
     return () => clearInterval(interval);
-  });
+  }, []);
   return time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
 export function Taskbar() {
   const { windows, minimizeWindow, restoreWindow } =
     useWindowManager();
+  const { isEvil } = useEvilMode();
   const [startOpen, setStartOpen] = useState(false);
   const time = useTime();
+  const taskbarRef = useRef<HTMLDivElement>(null);
+
+  // Close start menu on outside click
+  useEffect(() => {
+    if (!startOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (taskbarRef.current && !taskbarRef.current.contains(e.target as Node)) {
+        setStartOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [startOpen]);
 
   const toggleStart = useCallback(() => {
     setStartOpen((prev) => !prev);
@@ -97,10 +112,10 @@ export function Taskbar() {
   );
 
   return (
-    <TaskbarWrapper>
+    <TaskbarWrapper ref={taskbarRef}>
       <TaskbarToolbar>
         <StartButton active={startOpen} onClick={toggleStart}>
-          💖 Start
+          {isEvil ? "💀 Start" : "💖 Start"}
         </StartButton>
 
         <WindowButtons>
