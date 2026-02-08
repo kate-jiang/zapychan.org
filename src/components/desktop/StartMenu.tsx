@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { MenuList, MenuListItem as MenuListItemBase, Separator } from "react95";
 import styled, { keyframes } from "styled-components";
+import { Mspaint, Pbrush1, Notepad, Settings, WindowsExplorer, Computer } from "@react95/icons";
 import { useWindowManager } from "../../hooks/useWindowManager";
 import { useEvilMode } from "../../hooks/useEvilMode";
 
@@ -52,11 +53,11 @@ const StyledMenuItem = styled(MenuListItemBase)`
 `;
 
 const MenuIcon = styled.span`
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 28px;
-  text-align: center;
   margin-right: 10px;
-  font-size: 20px;
 `;
 
 // Glitchy evil mode trigger item
@@ -107,13 +108,13 @@ export function StartMenu({ onClose }: StartMenuProps) {
       <MenuContent>
         <StyledMenuItem
           onClick={() =>
-            handleOpen("mspaint", isEvil ? "M̸S̷ P̵a̶i̸n̷t̸" : "MS Paint", "gallery", {
+            handleOpen("mspaint", isEvil ? "M̸S̷ P̵a̶i̸n̷t̸ A̷r̵t̸" : "MS Paint Art", "gallery", {
               galleryType: "mspaint",
             })
           }
         >
-          <MenuIcon>💻</MenuIcon>
-          {isEvil ? "M̸S̷ P̵a̶i̸n̷t̸" : "MS Paint"}
+          <MenuIcon><Mspaint variant="16x16_4" /></MenuIcon>
+          {isEvil ? "M̸S̷ P̵a̶i̸n̷t̸ A̷r̵t̸" : "MS Paint Art"}
         </StyledMenuItem>
         <StyledMenuItem
           onClick={() =>
@@ -122,30 +123,30 @@ export function StartMenu({ onClose }: StartMenuProps) {
             })
           }
         >
-          <MenuIcon>🎨</MenuIcon>
+          <MenuIcon><Pbrush1 variant="32x32_4" width={16} height={16} /></MenuIcon>
           {isEvil ? "i̸P̷a̵d̶ A̵r̸t̷" : "iPad Art"}
         </StyledMenuItem>
         <Separator />
         <StyledMenuItem
           onClick={() => handleOpen("about", isEvil ? "A̷b̸o̵u̶t̸ M̷e̵" : "About Me", "about", undefined, { width: 480, height: 520 })}
         >
-          <MenuIcon>📝</MenuIcon>
+          <MenuIcon><Notepad variant="16x16_4" /></MenuIcon>
           {isEvil ? "A̷b̸o̵u̶t̸ M̷e̵" : "About Me"}
         </StyledMenuItem>
         <Separator />
         {isEvil ? (
           <StyledMenuItem onClick={handleRestore}>
-            <MenuIcon>🌸</MenuIcon>
+            <MenuIcon><WindowsExplorer variant="16x16_4" /></MenuIcon>
             Restore Defaults
           </StyledMenuItem>
         ) : (
           <EvilMenuItem onClick={handleEvilToggle}>
-            <MenuIcon>⚙️</MenuIcon>
+            <MenuIcon><Settings variant="16x16_4" /></MenuIcon>
             S̷y̵s̶t̵e̸m̷.̵.̸.̵
           </EvilMenuItem>
         )}
         <StyledMenuItem disabled>
-          <MenuIcon>🌸</MenuIcon>
+          <MenuIcon><Computer variant="16x16_4" /></MenuIcon>
           Shut Down...
         </StyledMenuItem>
       </MenuContent>

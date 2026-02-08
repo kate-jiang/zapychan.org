@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import styled from "styled-components";
 import { Toolbar, Button } from "react95";
+import { Mspaint, Pbrush1 } from "@react95/icons";
 import { paintings } from "../../data/paintings";
 import { digitalWorks } from "../../data/digitalWorks";
 import { ipadWorks } from "../../data/ipadWorks";
@@ -41,6 +42,10 @@ const Title = styled.div`
   font-size: 11px;
   padding: 4px 0;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
 `;
 
 export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
@@ -54,12 +59,12 @@ export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
   }, [galleryType]);
 
   const visibleCount = artworks.filter((a) => isEvil || !a.evilOnly).length;
-  const titleMap: Record<string, string> = {
-    paintings: "🎨 My Paintings",
-    mspaint: "💻 MS Paint",
-    ipad: "🎨 iPad Art",
+  const titleMap: Record<string, React.ReactNode> = {
+    paintings: <><Pbrush1 variant="32x32_4" width={14} height={14} /> My Paintings</>,
+    mspaint: <><Mspaint variant="16x16_4" width={14} height={14} /> MS Paint Art</>,
+    ipad: <><Pbrush1 variant="32x32_4" width={14} height={14} /> iPad Art</>,
   };
-  const title = titleMap[galleryType] ?? "🎨 Gallery";
+  const title = titleMap[galleryType] ?? <><Pbrush1 variant="32x32_4" width={14} height={14} /> Gallery</>;
 
   const toggleSort = () =>
     setSortOrder((prev) => (prev === "oldest" ? "newest" : "oldest"));

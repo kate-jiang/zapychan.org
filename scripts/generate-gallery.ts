@@ -29,7 +29,7 @@ const galleries: GalleryConfig[] = [
     thumbDir: "public/gallery/digital/thumbs",
     outputFile: "src/data/digitalWorks.ts",
     exportName: "digitalWorks",
-    medium: "MS Paint",
+    medium: "MS Paint Art",
     idPrefix: "d",
     evilEntries: [
       `  // Evil-only hidden digital works`,
