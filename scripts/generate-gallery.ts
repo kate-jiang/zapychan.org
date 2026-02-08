@@ -7,7 +7,7 @@
  * Usage: bun run scripts/generate-gallery.ts
  */
 
-import { readdir, exists, mkdir } from "node:fs/promises";
+import { readdir, exists, mkdir, stat } from "node:fs/promises";
 import { basename, extname, join } from "node:path";
 import sharp from "sharp";
 
@@ -76,17 +76,25 @@ async function main() {
     `Thumbnails: ${generated} generated, ${skipped} already existed`
   );
 
-  // Build digitalWorks entries
-  const entries = imageFiles.map((file, i) => {
-    const slug = slugify(file);
-    const title = titleFromFilename(file);
-    return {
-      id: `d${i + 1}`,
-      title,
-      thumbnail: `/gallery/digital/thumbs/${slug}`,
-      fullImage: `/gallery/digital/full/${file}`,
-    };
-  });
+  // Build digitalWorks entries with file dates
+  const entries = await Promise.all(
+    imageFiles.map(async (file, i) => {
+      const slug = slugify(file);
+      const title = titleFromFilename(file);
+      const fullPath = join(FULL_DIR, file);
+      const fileStat = await stat(fullPath);
+      const date = fileStat.mtime.toISOString().split("T")[0]; // YYYY-MM-DD
+      const year = fileStat.mtime.getFullYear();
+      return {
+        id: `d${i + 1}`,
+        title,
+        year,
+        date,
+        thumbnail: `/gallery/digital/thumbs/${slug}`,
+        fullImage: `/gallery/digital/full/${file}`,
+      };
+    }),
+  );
 
   // Write digitalWorks.ts
   const lines: string[] = [];
@@ -97,7 +105,7 @@ async function main() {
     lines.push(`  {`);
     lines.push(`    id: ${JSON.stringify(entry.id)},`);
     lines.push(`    title: ${JSON.stringify(entry.title)},`);
-    lines.push(`    year: 2024,`);
+    lines.push(`    year: ${entry.year},`);
     lines.push(`    medium: "MS Paint",`);
     lines.push(
       `    thumbnail: ${JSON.stringify(entry.thumbnail)},`
@@ -105,6 +113,7 @@ async function main() {
     lines.push(
       `    fullImage: ${JSON.stringify(entry.fullImage)},`
     );
+    lines.push(`    date: ${JSON.stringify(entry.date)},`);
     lines.push(`  },`);
   }
   // Append evil-only entries
@@ -121,6 +130,7 @@ async function main() {
     `    fullImage: "/gallery/digital/full/glitch-portrait.jpg",`
   );
   lines.push(`    description: "I don't remember making this.",`);
+  lines.push(`    date: "2025-01-01",`);
   lines.push(`    evilOnly: true,`);
   lines.push(`  },`);
   lines.push(`  {`);
@@ -137,6 +147,7 @@ async function main() {
   lines.push(
     `    description: "This file was found in a folder that shouldn't exist.",`
   );
+  lines.push(`    date: "2023-06-15",`);
   lines.push(`    evilOnly: true,`);
   lines.push(`  },`);
   lines.push(`];`);

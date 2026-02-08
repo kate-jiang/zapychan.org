@@ -7,6 +7,7 @@ export interface Artwork {
   thumbnail: string;
   fullImage: string;
   description?: string;
+  date?: string; // ISO date string (YYYY-MM-DD) from file metadata
   evilOnly?: boolean;
 }
 
