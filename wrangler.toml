@@ -1,0 +1,3 @@
+name = "zapychan-org"
+compatibility_date = "2025-01-20"
+pages_build_output_dir = "dist"
