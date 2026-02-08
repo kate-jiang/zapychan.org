@@ -42,7 +42,7 @@ export function Marquee({ isEvil }: MarqueeProps) {
       .catch(() => setHitCount(1337));
   }, []);
 
-  const normalText = `~*~ Welcome to zapychan's world!! ~*~ You are visitor #${hitCount ?? "..."} ~*~ Thanks for stopping by!! ~*~ (ﾉ◕ヮ◕)ﾉ*:・゚✧ ~*~ ♥ ♥ ♥ ~*~`;
+  const normalText = `~*~ welcome to zapy chan dot org!! ~*~ You are visitor #${hitCount ?? "..."} ~*~ Thanks for stopping by!! ~*~ (ﾉ◕ヮ◕)ﾉ*:・゚✧ ~*~ ♥ ♥ ♥ ~*~`;
   const evilText = `~*~ d̷o y̵ou s̶ee m̵e? ~*~ v̸i̷s̶i̴t̶o̴r̵ #${hitCount ?? "???"} ~*~ y̶o̸u̷ c̸a̷n̸'t̷ l̵e̸a̸v̷e̸ ~*~ ♥̶ ♥̶ ♥̶ ~*~`;
 
   return (
