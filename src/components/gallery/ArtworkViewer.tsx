@@ -10,25 +10,27 @@ interface ArtworkViewerProps {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 16px;
   gap: 16px;
-  overflow-y: auto;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
 `;
 
 const ImageContainer = styled.div`
-  max-width: 100%;
-  max-height: 60vh;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  border: 3px solid #ff69b4;
 
   img {
     max-width: 100%;
-    max-height: 60vh;
+    max-height: 100%;
     display: block;
     object-fit: contain;
+    border: 3px solid #ff69b4;
   }
 `;
 
@@ -45,7 +47,7 @@ const PlaceholderImage = styled.div`
 const InfoBox = styled(Frame)`
   padding: 12px;
   width: 100%;
-  max-width: 500px;
+  flex-shrink: 0;
 `;
 
 const Title = styled.h2`
