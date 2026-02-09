@@ -63,6 +63,11 @@ const StyledHeader = styled(WindowHeader)`
   user-select: none;
   -webkit-user-select: none;
   cursor: grab;
+  background: linear-gradient(
+    to right,
+    #ff1493,
+    #dda0dd
+  );
 
   &:active {
     cursor: grabbing;
