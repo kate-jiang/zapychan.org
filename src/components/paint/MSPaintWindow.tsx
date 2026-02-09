@@ -289,23 +289,78 @@ function floodFill(
     data[i + 2] === sb &&
     data[i + 3] === sa;
 
+  // Scanline flood fill
+  const visited = new Uint8Array(w * h);
   const stack = [sx, sy];
   while (stack.length > 0) {
     const y = stack.pop()!;
-    const x = stack.pop()!;
-    const idx = (y * w + x) * 4;
-    if (x < 0 || x >= w || y < 0 || y >= h) continue;
-    if (!match(idx)) continue;
+    let x = stack.pop()!;
+    if (y < 0 || y >= h) continue;
 
-    data[idx] = fc[0]!;
-    data[idx + 1] = fc[1]!;
-    data[idx + 2] = fc[2]!;
-    data[idx + 3] = fc[3]!;
+    // Walk left to find the start of this scanline segment
+    while (x > 0 && match((y * w + x - 1) * 4) && !visited[y * w + x - 1]) {
+      x--;
+    }
 
-    stack.push(x + 1, y);
-    stack.push(x - 1, y);
-    stack.push(x, y + 1);
-    stack.push(x, y - 1);
+    // Fill rightward, pushing neighbors above and below
+    let abovePushed = false;
+    let belowPushed = false;
+    while (x < w) {
+      const pi = y * w + x;
+      const idx = pi * 4;
+      if (visited[pi] || !match(idx)) break;
+
+      visited[pi] = 1;
+      data[idx] = fc[0]!;
+      data[idx + 1] = fc[1]!;
+      data[idx + 2] = fc[2]!;
+      data[idx + 3] = fc[3]!;
+
+      // Check pixel above
+      if (y > 0) {
+        const aboveMatch = match((pi - w) * 4) && !visited[pi - w];
+        if (aboveMatch && !abovePushed) {
+          stack.push(x, y - 1);
+          abovePushed = true;
+        } else if (!aboveMatch) {
+          abovePushed = false;
+        }
+      }
+
+      // Check pixel below
+      if (y < h - 1) {
+        const belowMatch = match((pi + w) * 4) && !visited[pi + w];
+        if (belowMatch && !belowPushed) {
+          stack.push(x, y + 1);
+          belowPushed = true;
+        } else if (!belowMatch) {
+          belowPushed = false;
+        }
+      }
+
+      x++;
+    }
+  }
+
+  // Edge cleanup: fill anti-aliased fringe pixels that border the filled region.
+  // Any non-filled pixel with ≥2 filled neighbors gets filled too.
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const pi = y * w + x;
+      if (visited[pi]) continue;
+      let filledNeighbors = 0;
+      if (x > 0 && visited[pi - 1]) filledNeighbors++;
+      if (x < w - 1 && visited[pi + 1]) filledNeighbors++;
+      if (y > 0 && visited[pi - w]) filledNeighbors++;
+      if (y < h - 1 && visited[pi + w]) filledNeighbors++;
+      if (filledNeighbors >= 2) {
+        const idx = pi * 4;
+        data[idx] = fc[0]!;
+        data[idx + 1] = fc[1]!;
+        data[idx + 2] = fc[2]!;
+        data[idx + 3] = fc[3]!;
+      }
+    }
   }
 
   ctx.putImageData(imageData, 0, 0);
