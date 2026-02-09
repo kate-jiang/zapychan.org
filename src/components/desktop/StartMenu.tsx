@@ -31,12 +31,13 @@ const MenuBanner = styled.div<{ $isEvil?: boolean }>`
   display: flex;
   align-items: flex-end;
   padding-bottom: 10px;
+  padding-top: 10px;
   writing-mode: vertical-rl;
   text-orientation: mixed;
   color: white;
   font-weight: bold;
-  font-size: 16px;
-  letter-spacing: 2px;
+  font-size: 18px;
+  letter-spacing: 3px;
   z-index: 1;
 `;
 
@@ -103,7 +104,7 @@ export function StartMenu({ onClose }: StartMenuProps) {
   return (
     <MenuWrapper>
       <MenuBanner $isEvil={isEvil}>
-        {isEvil ? "z̸a̵p̶y̷95" : "zapychan95"}
+        {isEvil ? "z̸a̵p̶y̷.̸o̵r̶g̷" : "zapy chan . org"}
       </MenuBanner>
       <MenuContent>
         <StyledMenuItem

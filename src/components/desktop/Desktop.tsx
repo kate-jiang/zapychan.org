@@ -23,10 +23,8 @@ const DesktopWrapper = styled.div<{ $isEvil?: boolean }>`
   overflow: hidden;
   position: relative;
   background-color: ${({ $isEvil }) => ($isEvil ? "#bf8099" : "#ffc0cb")};
-  background-image: ${({ $isEvil }) =>
-    $isEvil
-      ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ctext x='15' y='35' font-size='20' opacity='0.08'%3E%E2%99%A5%3C/text%3E%3Ctext x='45' y='15' font-size='14' opacity='0.06'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E")`
-      : `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ctext x='15' y='35' font-size='20' opacity='0.15'%3E%E2%99%A5%3C/text%3E%3Ctext x='45' y='15' font-size='14' opacity='0.1'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E")`};
+  background-image: url("/images/bg.gif");
+  background-repeat: repeat;
 `;
 
 const IconGrid = styled.div`
@@ -60,7 +58,7 @@ const LoadingFallback = styled.div`
 `;
 
 // Hidden easter egg icon
-const HiddenIcon = styled(DesktopIcon)<{ $discovered: boolean }>`
+const HiddenIcon = styled(DesktopIcon) <{ $discovered: boolean }>`
   position: absolute;
   bottom: 52px;
   right: 12px;
