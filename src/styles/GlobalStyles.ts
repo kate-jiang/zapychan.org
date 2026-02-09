@@ -43,7 +43,7 @@ export const GlobalStyles = createGlobalStyle<{ $isEvil?: boolean }>`
   }
 
   ::-webkit-scrollbar-track {
-    background: ${({ $isEvil }) => ($isEvil ? "#c98aa4" : "#ffe4f0")};
+    background: ${({ $isEvil }) => ($isEvil ? "#c98aa4" : "#f5a0b0")};
   }
 
   ::-webkit-scrollbar-thumb {
