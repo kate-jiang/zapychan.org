@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { AppBar, Toolbar, Button, Frame } from "react95";
 import styled from "styled-components";
-import { Mmsys110, Globe } from "@react95/icons";
+import { Mmsys110, Sndvol32303, Globe } from "@react95/icons";
 import { useWindowManager } from "../../hooks/useWindowManager";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { StartMenu } from "./StartMenu";
@@ -321,7 +321,7 @@ export function Taskbar() {
     [restoreWindow, minimizeWindow],
   );
 
-  const volumeIcon = <Mmsys110 variant="16x16_4" />;
+  const volumeIcon = volume === 0 ? <Sndvol32303 variant="16x16_4" /> : <Mmsys110 variant="16x16_4" />;
 
   return (
     <TaskbarWrapper ref={taskbarRef}>
