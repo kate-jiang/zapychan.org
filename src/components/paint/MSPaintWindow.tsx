@@ -169,6 +169,7 @@ const ActiveColors = styled.div`
   height: 28px;
   margin-right: 4px;
   flex-shrink: 0;
+  cursor: pointer;
 `;
 
 const FgSwatch = styled(Frame)<{ $color: string }>`
@@ -1016,7 +1017,7 @@ export function MSPaintWindow({ windowId: _windowId }: MSPaintWindowProps) {
       {/* Bottom: palette + status */}
       <BottomBar>
         <ColorPalette>
-          <ActiveColors>
+          <ActiveColors onClick={() => { setFgColor(bgColor); setBgColor(fgColor); }}>
             <FgSwatch variant="field" $color={fgColor} title={`Foreground: ${fgColor}`} />
             <BgSwatch variant="field" $color={bgColor} title={`Background: ${bgColor}`} />
           </ActiveColors>
