@@ -14,6 +14,7 @@ const MarqueeWrapper = styled.div`
 
 const MarqueeTrack = styled.div`
   display: flex;
+  align-items: center;
   white-space: nowrap;
   color: white;
   font-size: 12px;
@@ -21,6 +22,8 @@ const MarqueeTrack = styled.div`
   text-shadow: 1px 1px 0 #b03060;
   letter-spacing: 1px;
   will-change: transform;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 `;
 
 const SegmentGroup = styled.div`
