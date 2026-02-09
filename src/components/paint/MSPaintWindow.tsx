@@ -241,14 +241,14 @@ const MenuBarItem = styled.div`
 
 // --- Tool icons (emoji stand-ins, compact) ---
 
-const TOOL_ICONS: Record<PaintTool, string> = {
+const TOOL_ICONS: Record<PaintTool, React.ReactNode> = {
   pencil: "✏️",
   eraser: "🧹",
   fill: "🪣",
   line: "╱",
   rectangle: "▭",
   ellipse: "◯",
-  colorPicker: "💧",
+  colorPicker: <svg viewBox="0 0 24 24" width="16" height="16" fill="#09244B"><path d="M20.477 3.511c-1.171-1.172-3.071-1.172-4.243 0l-1.533 1.533c-1.112-.535-2.487-.341-3.41.581l-.714.714c-.781.781-.781 2.048 0 2.829l-6.485 6.485a2.99 2.99 0 0 0-.878 2.121v1.8c0 .663.537 1.2 1.2 1.2h1.8a2.99 2.99 0 0 0 2.121-.879l6.486-6.485c.78.781 2.047.781 2.828 0l.714-.714c.922-.923 1.116-2.297.581-3.41l1.533-1.533c1.171-1.171 1.171-3.071 0-4.243zM5.507 17.068l6.485-6.486 1.414 1.414-6.485 6.486a.997.997 0 0 1-.707.293h-1v-1c0-.265.105-.52.293-.707z"/></svg>,
   text: "A",
 };
 
@@ -263,7 +263,7 @@ const TOOL_LABELS: Record<PaintTool, string> = {
   text: "Text",
 };
 
-const EMOJI_TOOLS = new Set<PaintTool>(["pencil", "eraser", "fill", "colorPicker"]);
+const EMOJI_TOOLS = new Set<PaintTool>(["pencil", "eraser", "fill"]);
 
 const ALL_TOOLS: PaintTool[] = [
   "pencil",
