@@ -101,7 +101,7 @@ async function generateThumbnail(
   const isGif = extname(fullPath).toLowerCase() === ".gif";
   const pipeline = sharp(fullPath, isGif ? { animated: true } : undefined)
     .resize(THUMB_SIZE, THUMB_SIZE, { fit: "inside", withoutEnlargement: true });
-  if (isGif) pipeline.gif();
+  if (isGif) pipeline.gif({ loop: 0 });
   await pipeline.toFile(thumbPath);
 }
 
