@@ -74,7 +74,7 @@ const TrayCell = styled(Frame) <{ $clickable?: boolean }>`
   padding: 0 8px;
   white-space: nowrap;
 
-  &:hover {
+  &:hover:not([data-popup-open="true"]) {
     ${({ $clickable }) => $clickable && "filter: brightness(1.2);"}
   }
 `;
@@ -94,21 +94,87 @@ const VolumePopup = styled(Frame)`
   min-width: 44px;
 `;
 
-const VolumeSliderTrack = styled.div`
-  height: 100px;
+const Win95Slider = styled.input`
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 24px;
+  height: 110px;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+
+  /* Track */
+  &::-webkit-slider-runnable-track {
+    width: 6px;
+    height: 100%;
+    background: ${({ theme }) => theme.canvas};
+    border-left: 2px solid ${({ theme }) => theme.borderDarkest};
+    border-top: 2px solid ${({ theme }) => theme.borderDarkest};
+    border-right: 2px solid ${({ theme }) => theme.borderLightest};
+    border-bottom: 2px solid ${({ theme }) => theme.borderLightest};
+  }
+
+  /* Thumb */
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 11px;
+    height: 21px;
+    background: ${({ theme }) => theme.material};
+    border-top: 2px solid ${({ theme }) => theme.borderLightest};
+    border-left: 2px solid ${({ theme }) => theme.borderLightest};
+    border-bottom: 2px solid ${({ theme }) => theme.borderDarkest};
+    border-right: 2px solid ${({ theme }) => theme.borderDarkest};
+    box-shadow: inset 1px 1px 0 0 ${({ theme }) => theme.borderLight},
+      inset -1px -1px 0 0 ${({ theme }) => theme.borderDark};
+    margin-left: -3px;
+  }
+
+  &::-moz-range-track {
+    width: 6px;
+    background: ${({ theme }) => theme.canvas};
+    border-left: 2px solid ${({ theme }) => theme.borderDarkest};
+    border-top: 2px solid ${({ theme }) => theme.borderDarkest};
+    border-right: 2px solid ${({ theme }) => theme.borderLightest};
+    border-bottom: 2px solid ${({ theme }) => theme.borderLightest};
+  }
+
+  &::-moz-range-thumb {
+    width: 11px;
+    height: 21px;
+    border-radius: 0;
+    background: ${({ theme }) => theme.material};
+    border-top: 2px solid ${({ theme }) => theme.borderLightest};
+    border-left: 2px solid ${({ theme }) => theme.borderLightest};
+    border-bottom: 2px solid ${({ theme }) => theme.borderDarkest};
+    border-right: 2px solid ${({ theme }) => theme.borderDarkest};
+    box-shadow: inset 1px 1px 0 0 ${({ theme }) => theme.borderLight},
+      inset -1px -1px 0 0 ${({ theme }) => theme.borderDark};
+  }
+`;
+
+const TickMarks = styled.div`
+  position: absolute;
+  right: 4px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4px 0;
+`;
+
+const Tick = styled.div`
+  width: 4px;
+  height: 1px;
+  background: ${({ theme }) => theme.materialText};
+`;
+
+const SliderWrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const VolumeSlider = styled.input`
-  writing-mode: vertical-lr;
-  direction: rtl;
-  width: 22px;
-  height: 100px;
-  appearance: auto;
-  cursor: pointer;
-  accent-color: ${({ theme }) => theme.headerBackground};
+  padding-right: 10px;
 `;
 
 const VolumeLabel = styled.div`
@@ -294,6 +360,7 @@ export function Taskbar() {
             variant="status"
             ref={volumeRef}
             $clickable
+            data-popup-open={volumeOpen ? "true" : undefined}
             title={isEvil ? "SCREAMS" : `Volume: ${volume}%`}
             onClick={() => {
               setVolumeOpen((v) => !v);
@@ -306,15 +373,20 @@ export function Taskbar() {
                 <VolumeLabel>
                   {isEvil ? "???" : `${volume}%`}
                 </VolumeLabel>
-                <VolumeSliderTrack>
-                  <VolumeSlider
+                <SliderWrapper>
+                  <Win95Slider
                     type="range"
-                    min="0"
-                    max="100"
+                    min={0}
+                    max={100}
                     value={volume}
                     onChange={(e) => handleVolumeChange(Number(e.target.value))}
                   />
-                </VolumeSliderTrack>
+                  <TickMarks>
+                    {Array.from({ length: 11 }, (_, i) => (
+                      <Tick key={i} />
+                    ))}
+                  </TickMarks>
+                </SliderWrapper>
                 <div style={{ fontSize: 13 }}>
                   {volumeIcon}
                 </div>
