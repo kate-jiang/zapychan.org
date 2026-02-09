@@ -69,6 +69,8 @@ export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
   };
   const title = titleMap[galleryType] ?? <><Pbrush1 variant="32x32_4" width={14} height={14} /> Gallery</>;
 
+  const hideDate = galleryType === "gif" || galleryType === "selfPortraits";
+
   const toggleSort = () =>
     setSortOrder((prev) => (prev === "oldest" ? "newest" : "oldest"));
 
@@ -81,8 +83,9 @@ export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
         <Button
           variant="thin"
           size="sm"
-          active={sortOrder === "newest"}
-          onClick={toggleSort}
+          active={!hideDate && sortOrder === "newest"}
+          onClick={hideDate ? undefined : toggleSort}
+          disabled={hideDate}
         >
           Sort: {sortOrder === "oldest" ? "Oldest" : "Newest"}
         </Button>
@@ -95,6 +98,7 @@ export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
           artworks={artworks}
           windowId={windowId}
           sortOrder={sortOrder}
+          hideDate={hideDate}
         />
       </ContentArea>
     </Wrapper>

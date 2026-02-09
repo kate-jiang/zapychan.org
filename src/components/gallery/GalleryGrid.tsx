@@ -10,6 +10,7 @@ interface GalleryGridProps {
   artworks: Artwork[];
   windowId: string;
   sortOrder: SortOrder;
+  hideDate?: boolean;
 }
 
 const PAGE_SIZE = 20;
@@ -89,6 +90,7 @@ function getDateKey(a: Artwork): string {
 export function GalleryGrid({
   artworks,
   sortOrder,
+  hideDate,
 }: GalleryGridProps) {
   const [page, setPage] = useState(1);
   const { openWindow } = useWindowManager();
@@ -153,7 +155,7 @@ export function GalleryGrid({
             />
           </ThumbImage>
           <ThumbTitle>{artwork.title}</ThumbTitle>
-          <ThumbYear>{artwork.date || artwork.year}</ThumbYear>
+          {!hideDate && <ThumbYear>{artwork.date || artwork.year}</ThumbYear>}
         </ThumbCard>
       ))}
       {hasMore && (
