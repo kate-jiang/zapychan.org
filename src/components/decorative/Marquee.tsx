@@ -4,7 +4,7 @@ import styled from "styled-components";
 const MarqueeWrapper = styled.div`
   width: 100%;
   overflow: hidden;
-  background: linear-gradient(90deg, #ff69b4, #ff1493, #ff69b4);
+  background: linear-gradient(to right, #dda0dd, #ff44aa);
   padding: 3px 0;
   position: relative;
   z-index: 2;
