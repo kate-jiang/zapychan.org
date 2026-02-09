@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
 const scroll = keyframes`
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 `;
 
 const MarqueeWrapper = styled.div`
@@ -17,15 +17,20 @@ const MarqueeWrapper = styled.div`
   border-top: 2px solid #ffcce0;
 `;
 
-const MarqueeText = styled.div`
-  display: inline-block;
+const MarqueeTrack = styled.div`
+  display: flex;
   white-space: nowrap;
-  animation: ${scroll} 20s linear infinite;
+  animation: ${scroll} 30s linear infinite;
   color: white;
   font-size: 12px;
   font-weight: bold;
   text-shadow: 1px 1px 0 #b03060;
   letter-spacing: 1px;
+`;
+
+const Segment = styled.span`
+  flex-shrink: 0;
+  padding: 0 4em;
 `;
 
 export function Marquee() {
@@ -38,11 +43,22 @@ export function Marquee() {
       .catch(() => setHitCount(1337));
   }, []);
 
-  const text = `~*~ welcome to zapy chan dot org!! ~*~ You are visitor #${hitCount ?? "..."} ~*~ Thanks for stopping by!! ~*~ (ﾉ◕ヮ◕)ﾉ*:・゚✧ ~*~ ♥ ♥ ♥ ~*~`;
+  const segments = [
+    `♥ you are visitor #${hitCount ?? "..."} ♥`,
+    `~*~ i am happy because everybody loves me ~*~`,
+    `✧・゚: *✧ welcome to zapy chan dot org ✧*:・゚✧`,
+  ];
 
   return (
     <MarqueeWrapper>
-      <MarqueeText>{text}</MarqueeText>
+      <MarqueeTrack>
+        {segments.map((s, i) => (
+          <Segment key={i}>{s}</Segment>
+        ))}
+        {segments.map((s, i) => (
+          <Segment key={`dup-${i}`}>{s}</Segment>
+        ))}
+      </MarqueeTrack>
     </MarqueeWrapper>
   );
 }
