@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Toolbar, Button } from "react95";
 import { Mspaint, Pbrush1 } from "@react95/icons";
 import { paintings } from "../../data/paintings";
-import { digitalWorks } from "../../data/digitalWorks";
+import { msPaintWorks } from "../../data/msPaintWorks";
 import { ipadWorks } from "../../data/ipadWorks";
 import { gifWorks } from "../../data/gifWorks";
 import { selfPortraits } from "../../data/selfPortraits";
@@ -57,7 +57,7 @@ export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
     if (galleryType === "ipad") return ipadWorks;
     if (galleryType === "gif") return gifWorks;
     if (galleryType === "selfPortraits") return selfPortraits;
-    return digitalWorks;
+    return msPaintWorks;
   }, [galleryType]);
 
   const titleMap: Record<string, React.ReactNode> = {

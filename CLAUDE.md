@@ -55,7 +55,7 @@ src/
       CursorTrail.tsx      # Sparkle trail following mouse (desktop only)
   data/
     paintings.ts           # Painting artwork metadata (Acrylic on Canvas)
-    digitalWorks.ts        # Digital artwork metadata (MS Paint works)
+    msPaintWorks.ts        # MS Paint artwork metadata
     ipadWorks.ts           # iPad artwork metadata
     gifWorks.ts            # Animated GIF artwork metadata
     selfPortraits.ts       # Self portrait artwork metadata
@@ -64,7 +64,7 @@ src/
     guestbookEntries.ts    # Fake guestbook entries
 public/
   gallery/
-    digital/
+    msPaint/
       full/               # Original MS Paint artworks (filenames have spaces)
       thumbs/             # 300px thumbnails (slugified filenames)
     ipad/

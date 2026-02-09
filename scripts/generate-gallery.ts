@@ -24,10 +24,10 @@ interface GalleryConfig {
 
 const galleries: GalleryConfig[] = [
   {
-    fullDir: "public/gallery/digital/full",
-    thumbDir: "public/gallery/digital/thumbs",
-    outputFile: "src/data/digitalWorks.ts",
-    exportName: "digitalWorks",
+    fullDir: "public/gallery/msPaint/full",
+    thumbDir: "public/gallery/msPaint/thumbs",
+    outputFile: "src/data/msPaintWorks.ts",
+    exportName: "msPaintWorks",
     medium: "MS Paint Art",
     idPrefix: "d",
   },
