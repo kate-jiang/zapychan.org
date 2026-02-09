@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { styleReset } from "react95";
+import { styleReset, createScrollbars } from "react95";
 
 export const GlobalStyles = createGlobalStyle<{ $isEvil?: boolean }>`
   ${styleReset}
@@ -36,25 +36,8 @@ export const GlobalStyles = createGlobalStyle<{ $isEvil?: boolean }>`
     color: ${({ $isEvil }) => ($isEvil ? "#4a0e2a" : "#8b0045")};
   }
 
-  /* Scrollbar styling */
-  ::-webkit-scrollbar {
-    width: 16px;
-    height: 16px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: ${({ $isEvil }) => ($isEvil ? "#c98aa4" : "#f5a0b0")};
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: ${({ $isEvil }) => ($isEvil ? "#8b5070" : "#ff69b4")};
-    border: 2px solid ${({ $isEvil }) => ($isEvil ? "#6b2040" : "#d4578a")};
-  }
-
-  ::-webkit-scrollbar-button {
-    background: ${({ $isEvil }) => ($isEvil ? "#c98aa4" : "#ffb6c1")};
-    border: 1px outset ${({ $isEvil }) => ($isEvil ? "#8b5070" : "#ff69b4")};
-  }
+  /* Windows 95 scrollbar styling via react95 */
+  ${createScrollbars()}
 
   /* Evil mode scanline overlay - applied via pseudo-element on body */
   ${({ $isEvil }) =>
