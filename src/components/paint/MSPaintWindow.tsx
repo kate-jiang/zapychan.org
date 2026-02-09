@@ -132,6 +132,23 @@ const CanvasEl = styled.canvas`
   touch-action: none;
 `;
 
+const TextInputOverlay = styled.textarea<{ $fontSize: number }>`
+  position: absolute;
+  z-index: 3;
+  background: transparent;
+  border: 1px dashed #000;
+  outline: none;
+  resize: none;
+  font-family: Arial, sans-serif;
+  font-size: ${({ $fontSize }) => $fontSize}px;
+  line-height: 1.2;
+  padding: 2px;
+  min-width: 20px;
+  min-height: ${({ $fontSize }) => $fontSize * 1.2 + 4}px;
+  overflow: hidden;
+  color: inherit;
+`;
+
 const BottomBar = styled.div`
   flex-shrink: 0;
   display: flex;
@@ -227,6 +244,7 @@ const TOOL_ICONS: Record<PaintTool, string> = {
   rectangle: "▭",
   ellipse: "◯",
   colorPicker: "💧",
+  text: "A",
 };
 
 const TOOL_LABELS: Record<PaintTool, string> = {
@@ -237,6 +255,7 @@ const TOOL_LABELS: Record<PaintTool, string> = {
   rectangle: "Rectangle",
   ellipse: "Ellipse",
   colorPicker: "Color Picker",
+  text: "Text",
 };
 
 const ALL_TOOLS: PaintTool[] = [
@@ -247,7 +266,10 @@ const ALL_TOOLS: PaintTool[] = [
   "rectangle",
   "ellipse",
   "colorPicker",
+  "text",
 ];
+
+const TEXT_SIZE_MULTIPLIER = 4;
 
 // --- Flood fill (iterative, no recursion) ---
 
@@ -381,6 +403,14 @@ export function MSPaintWindow({ windowId: _windowId }: MSPaintWindowProps) {
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [textInput, setTextInput] = useState<{
+    visible: boolean;
+    x: number;
+    y: number;
+    value: string;
+  } | null>(null);
+  const textInputRef = useRef(textInput);
+  textInputRef.current = textInput;
 
   // Undo stack
   const undoStackRef = useRef<ImageData[]>([]);
@@ -460,6 +490,30 @@ export function MSPaintWindow({ windowId: _windowId }: MSPaintWindowProps) {
     }
   }, []);
 
+  const commitText = useCallback(
+    (input: { x: number; y: number; value: string } | null) => {
+      if (!input || !input.value.trim()) {
+        setTextInput(null);
+        return;
+      }
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      saveUndoState();
+      const fontSize = brushSize * TEXT_SIZE_MULTIPLIER;
+      ctx.font = `${fontSize}px Arial, sans-serif`;
+      ctx.fillStyle = fgColor;
+      ctx.textBaseline = "top";
+      const lines = input.value.split("\n");
+      for (const [i, line] of lines.entries()) {
+        ctx.fillText(line, input.x, input.y + i * fontSize * 1.2);
+      }
+      setTextInput(null);
+    },
+    [brushSize, fgColor, saveUndoState],
+  );
+
   const undo = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -482,6 +536,13 @@ export function MSPaintWindow({ windowId: _windowId }: MSPaintWindowProps) {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [undo]);
+
+  // Commit text input when switching away from text tool
+  useEffect(() => {
+    if (tool !== "text" && textInputRef.current) {
+      commitText(textInputRef.current);
+    }
+  }, [tool, commitText]);
 
   const getCanvasCoords = useCallback(
     (e: React.PointerEvent): { x: number; y: number } => {
@@ -556,11 +617,18 @@ export function MSPaintWindow({ windowId: _windowId }: MSPaintWindowProps) {
           setFgColor(hex);
         }
         isDrawingRef.current = false;
+      } else if (tool === "text") {
+        // Commit existing text first if it has content
+        if (textInputRef.current && textInputRef.current.value.trim()) {
+          commitText(textInputRef.current);
+        }
+        setTextInput({ visible: true, x: pos.x, y: pos.y, value: "" });
+        isDrawingRef.current = false;
       } else if (tool === "line" || tool === "rectangle" || tool === "ellipse") {
         saveUndoState();
       }
     },
-    [tool, brushSize, getCanvasCoords, getDrawColor, saveUndoState],
+    [tool, brushSize, getCanvasCoords, getDrawColor, saveUndoState, commitText],
   );
 
   const handlePointerMove = useCallback(
@@ -703,6 +771,98 @@ export function MSPaintWindow({ windowId: _windowId }: MSPaintWindowProps) {
     setOpenMenu(null);
   }, [undo]);
 
+  // --- Image menu handlers ---
+
+  const handleFlipHorizontal = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    saveUndoState();
+    const tmp = document.createElement("canvas");
+    tmp.width = canvas.width;
+    tmp.height = canvas.height;
+    const tCtx = tmp.getContext("2d")!;
+    tCtx.scale(-1, 1);
+    tCtx.drawImage(canvas, -canvas.width, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(tmp, 0, 0);
+    setOpenMenu(null);
+  }, [saveUndoState]);
+
+  const handleFlipVertical = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    saveUndoState();
+    const tmp = document.createElement("canvas");
+    tmp.width = canvas.width;
+    tmp.height = canvas.height;
+    const tCtx = tmp.getContext("2d")!;
+    tCtx.scale(1, -1);
+    tCtx.drawImage(canvas, 0, -canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(tmp, 0, 0);
+    setOpenMenu(null);
+  }, [saveUndoState]);
+
+  const handleRotate90CW = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    saveUndoState();
+    const w = canvas.width;
+    const h = canvas.height;
+    const tmp = document.createElement("canvas");
+    tmp.width = w;
+    tmp.height = h;
+    const tCtx = tmp.getContext("2d")!;
+    tCtx.fillStyle = "#FFFFFF";
+    tCtx.fillRect(0, 0, w, h);
+    tCtx.translate(w / 2, h / 2);
+    tCtx.rotate(Math.PI / 2);
+    tCtx.drawImage(canvas, -w / 2, -h / 2);
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(tmp, 0, 0);
+    setOpenMenu(null);
+  }, [saveUndoState]);
+
+  const handleRotate180 = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    saveUndoState();
+    const tmp = document.createElement("canvas");
+    tmp.width = canvas.width;
+    tmp.height = canvas.height;
+    const tCtx = tmp.getContext("2d")!;
+    tCtx.scale(-1, -1);
+    tCtx.drawImage(canvas, -canvas.width, -canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(tmp, 0, 0);
+    setOpenMenu(null);
+  }, [saveUndoState]);
+
+  const handleInvertColors = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    saveUndoState();
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = 255 - data[i]!;
+      data[i + 1] = 255 - data[i + 1]!;
+      data[i + 2] = 255 - data[i + 2]!;
+    }
+    ctx.putImageData(imageData, 0, 0);
+    setOpenMenu(null);
+  }, [saveUndoState]);
+
   // Close menu on click outside
   useEffect(() => {
     if (!openMenu) return;
@@ -761,6 +921,27 @@ export function MSPaintWindow({ windowId: _windowId }: MSPaintWindowProps) {
             </DropdownMenu>
           )}
         </MenuBarItem>
+        <MenuBarItem data-menu>
+          <Button
+            variant="thin"
+            size="sm"
+            active={openMenu === "image"}
+            onClick={() => setOpenMenu(openMenu === "image" ? null : "image")}
+          >
+            Image
+          </Button>
+          {openMenu === "image" && (
+            <DropdownMenu>
+              <MenuListItem size="sm" onClick={handleFlipHorizontal}>Flip Horizontal</MenuListItem>
+              <MenuListItem size="sm" onClick={handleFlipVertical}>Flip Vertical</MenuListItem>
+              <Separator />
+              <MenuListItem size="sm" onClick={handleRotate90CW}>Rotate 90° CW</MenuListItem>
+              <MenuListItem size="sm" onClick={handleRotate180}>Rotate 180°</MenuListItem>
+              <Separator />
+              <MenuListItem size="sm" onClick={handleInvertColors}>Invert Colors</MenuListItem>
+            </DropdownMenu>
+          )}
+        </MenuBarItem>
       </MenuBar>
 
       {/* Main area: tools + canvas */}
@@ -802,6 +983,33 @@ export function MSPaintWindow({ windowId: _windowId }: MSPaintWindowProps) {
             onPointerUp={handlePointerUp}
             onContextMenu={handleContextMenu}
           />
+          {textInput?.visible && (
+            <TextInputOverlay
+              $fontSize={brushSize * TEXT_SIZE_MULTIPLIER}
+              style={{
+                left: textInput.x,
+                top: textInput.y,
+                color: fgColor,
+              }}
+              value={textInput.value}
+              autoFocus
+              onChange={(e) =>
+                setTextInput((prev) =>
+                  prev ? { ...prev, value: e.target.value } : null,
+                )
+              }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  commitText(textInput);
+                } else if (e.key === "Escape") {
+                  e.preventDefault();
+                  setTextInput(null);
+                }
+              }}
+              onBlur={() => commitText(textInput)}
+            />
+          )}
         </CanvasArea>
       </MainArea>
 

@@ -5,7 +5,8 @@ export type PaintTool =
   | "line"
   | "rectangle"
   | "ellipse"
-  | "colorPicker";
+  | "colorPicker"
+  | "text";
 
 // Pastel palette matching the pink aesthetic (2 rows of 14)
 export const MS_PAINT_COLORS = [
