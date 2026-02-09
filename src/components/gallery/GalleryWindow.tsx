@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import styled from "styled-components";
 import { Toolbar, Button } from "react95";
-import { Mspaint, Pbrush1 } from "@react95/icons";
+import { Pbrush1, Wangimg130, CurvesAndColors100 } from "@react95/icons";
 import { paintings } from "../../data/paintings";
 import { msPaintWorks } from "../../data/msPaintWorks";
 import { ipadWorks } from "../../data/ipadWorks";
@@ -47,6 +47,7 @@ const Title = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: 4px;
+
 `;
 
 export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
@@ -60,14 +61,15 @@ export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
     return msPaintWorks;
   }, [galleryType]);
 
+  const iconStyle = { position: "relative" as const, top: -1, display: "inline-flex" };
   const titleMap: Record<string, React.ReactNode> = {
-    paintings: <><Pbrush1 variant="32x32_4" width={14} height={14} /> My Paintings</>,
-    mspaint: <><Mspaint variant="16x16_4" width={14} height={14} /> MS Paint Art</>,
-    ipad: <><Pbrush1 variant="32x32_4" width={14} height={14} /> iPad Art</>,
-    gif: <><Pbrush1 variant="32x32_4" width={14} height={14} /> GIFs</>,
-    selfPortraits: <><Pbrush1 variant="32x32_4" width={14} height={14} /> Self Portraits</>,
+    paintings: <><span style={iconStyle}><Wangimg130 variant="32x32_4" width={14} height={14} /></span> My Paintings</>,
+    mspaint: <><span style={iconStyle}><Pbrush1 variant="32x32_4" width={14} height={14} /></span> MS Paint Art</>,
+    ipad: <><span style={iconStyle}><CurvesAndColors100 variant="32x32_4" width={14} height={14} /></span> iPad Art</>,
+    gif: <><img src="/gallery/gif/thumbs/img-1222.gif" width={14} height={14} style={{ objectFit: "cover", ...iconStyle }} alt="" /> GIFs</>,
+    selfPortraits: <><img src="/gallery/self portraits/thumbs/wired.png" width={14} height={14} style={{ objectFit: "cover", ...iconStyle }} alt="" /> Self Portraits</>,
   };
-  const title = titleMap[galleryType] ?? <><Pbrush1 variant="32x32_4" width={14} height={14} /> Gallery</>;
+  const title = titleMap[galleryType] ?? <><span style={iconStyle}><Wangimg130 variant="32x32_4" width={14} height={14} /></span> Gallery</>;
 
   const hideDate = galleryType === "gif" || galleryType === "selfPortraits";
 
