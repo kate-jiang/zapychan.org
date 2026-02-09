@@ -28,11 +28,7 @@ const MarqueeText = styled.div`
   letter-spacing: 1px;
 `;
 
-interface MarqueeProps {
-  isEvil?: boolean;
-}
-
-export function Marquee({ isEvil }: MarqueeProps) {
+export function Marquee() {
   const [hitCount, setHitCount] = useState<number | null>(null);
 
   useEffect(() => {
@@ -42,14 +38,11 @@ export function Marquee({ isEvil }: MarqueeProps) {
       .catch(() => setHitCount(1337));
   }, []);
 
-  const normalText = `~*~ welcome to zapy chan dot org!! ~*~ You are visitor #${hitCount ?? "..."} ~*~ Thanks for stopping by!! ~*~ (ﾉ◕ヮ◕)ﾉ*:・゚✧ ~*~ ♥ ♥ ♥ ~*~`;
-  const evilText = `~*~ d̷o y̵ou s̶ee m̵e? ~*~ v̸i̷s̶i̴t̶o̴r̵ #${hitCount ?? "???"} ~*~ y̶o̸u̷ c̸a̷n̸'t̷ l̵e̸a̸v̷e̸ ~*~ ♥̶ ♥̶ ♥̶ ~*~`;
+  const text = `~*~ welcome to zapy chan dot org!! ~*~ You are visitor #${hitCount ?? "..."} ~*~ Thanks for stopping by!! ~*~ (ﾉ◕ヮ◕)ﾉ*:・゚✧ ~*~ ♥ ♥ ♥ ~*~`;
 
   return (
-    <MarqueeWrapper
-      style={isEvil ? { background: "linear-gradient(90deg, #8b2252, #6b0030, #8b2252)" } : undefined}
-    >
-      <MarqueeText>{isEvil ? evilText : normalText}</MarqueeText>
+    <MarqueeWrapper>
+      <MarqueeText>{text}</MarqueeText>
     </MarqueeWrapper>
   );
 }

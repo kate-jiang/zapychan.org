@@ -3,7 +3,6 @@ import { AppBar, Toolbar, Button, Frame } from "react95";
 import styled from "styled-components";
 import { Mmsys110, Globe } from "@react95/icons";
 import { useWindowManager } from "../../hooks/useWindowManager";
-import { useEvilMode } from "../../hooks/useEvilMode";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { StartMenu } from "./StartMenu";
 
@@ -194,16 +193,7 @@ function useTime() {
   return time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-function weatherEmoji(code: number, isEvil: boolean): string {
-  if (isEvil) {
-    if (code === 0) return "🌑";
-    if (code <= 3) return "🌫️";
-    if (code <= 48) return "👁️";
-    if (code <= 67) return "🩸";
-    if (code <= 77) return "💀";
-    if (code >= 95) return "⛈️";
-    return "👁️";
-  }
+function weatherEmoji(code: number): string {
   if (code === 0) return "☀️";
   if (code <= 3) return "⛅";
   if (code <= 48) return "🌫️";
@@ -252,7 +242,6 @@ function useWeather() {
 
 export function Taskbar() {
   const { windows, minimizeWindow, restoreWindow } = useWindowManager();
-  const { isEvil } = useEvilMode();
   const isMobile = useIsMobile();
   const [startOpen, setStartOpen] = useState(false);
   const [volumeOpen, setVolumeOpen] = useState(false);
@@ -361,7 +350,7 @@ export function Taskbar() {
             ref={volumeRef}
             $clickable
             data-popup-open={volumeOpen ? "true" : undefined}
-            title={isEvil ? "SCREAMS" : `Volume: ${volume}%`}
+            title={`Volume: ${volume}%`}
             onClick={() => {
               setVolumeOpen((v) => !v);
               setStartOpen(false);
@@ -371,7 +360,7 @@ export function Taskbar() {
             {volumeOpen && (
               <VolumePopup variant="window" shadow onClick={(e) => e.stopPropagation()}>
                 <VolumeLabel>
-                  {isEvil ? "???" : `${volume}%`}
+                  {`${volume}%`}
                 </VolumeLabel>
                 <SliderWrapper>
                   <Win95Slider
@@ -398,9 +387,7 @@ export function Taskbar() {
           {!isMobile && (
             <TrayCell
               variant="status"
-              title={
-                isEvil ? "connection lost" : "Internet connected"
-              }
+              title="Internet connected"
             >
               <Globe variant="16x16_4" />
             </TrayCell>
@@ -409,8 +396,8 @@ export function Taskbar() {
           {/* Weather (NYC) */}
           {weather && (
             <TrayCell variant="status" title={`NYC: ${weather.temp}°F`}>
-              {weatherEmoji(weather.code, isEvil)}{" "}
-              {isEvil ? "??°" : `${weather.temp}°`}
+              {weatherEmoji(weather.code)}{" "}
+              {`${weather.temp}°`}
             </TrayCell>
           )}
 

@@ -1603,27 +1603,4 @@ export const digitalWorks: Artwork[] = [
     fullImage: "/gallery/digital/full/zappy.png",
     date: "2025-02-26",
   },
-  // Evil-only hidden digital works
-  {
-    id: "d-evil1",
-    title: "glitch_portrait_FINAL_real.psd",
-    year: 2025,
-    medium: "Digital (???)",
-    thumbnail: "/gallery/digital/thumbs/glitch-portrait.jpg",
-    fullImage: "/gallery/digital/full/glitch-portrait.jpg",
-    description: "I don't remember making this.",
-    date: "2025-01-01",
-    evilOnly: true,
-  },
-  {
-    id: "d-evil2",
-    title: "DO NOT OPEN",
-    year: 2023,
-    medium: "Digital (corrupted)",
-    thumbnail: "/gallery/digital/thumbs/do-not-open.jpg",
-    fullImage: "/gallery/digital/full/do-not-open.jpg",
-    description: "This file was found in a folder that shouldn't exist.",
-    date: "2023-06-15",
-    evilOnly: true,
-  },
 ];

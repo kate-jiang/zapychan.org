@@ -8,7 +8,6 @@ export interface Artwork {
   fullImage: string;
   description?: string;
   date?: string; // ISO date string (YYYY-MM-DD) from file metadata
-  evilOnly?: boolean;
 }
 
 // Sample paintings - replace thumbnails/images with actual artwork
@@ -72,28 +71,5 @@ export const paintings: Artwork[] = [
     thumbnail: "/gallery/paintings/thumbs/underwater-rose.jpg",
     fullImage: "/gallery/paintings/full/underwater-rose.jpg",
     description: "A rose blooming underwater surrounded by bubbles",
-  },
-  // Evil-only hidden paintings
-  {
-    id: "p-evil1",
-    title: "The Eyes in the Garden",
-    year: 2025,
-    medium: "Oil on canvas",
-    dimensions: '36" x 48"',
-    thumbnail: "/gallery/paintings/thumbs/eyes-garden.jpg",
-    fullImage: "/gallery/paintings/full/eyes-garden.jpg",
-    description: "You weren't supposed to find this one.",
-    evilOnly: true,
-  },
-  {
-    id: "p-evil2",
-    title: "Self Portrait (incomplete)",
-    year: 2024,
-    medium: "Oil on canvas",
-    dimensions: '18" x 24"',
-    thumbnail: "/gallery/paintings/thumbs/self-portrait-incomplete.jpg",
-    fullImage: "/gallery/paintings/full/self-portrait-incomplete.jpg",
-    description: "The face keeps changing every time I look away.",
-    evilOnly: true,
   },
 ];

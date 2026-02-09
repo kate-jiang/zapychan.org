@@ -6,7 +6,6 @@ import { paintings } from "../../data/paintings";
 import { digitalWorks } from "../../data/digitalWorks";
 import { ipadWorks } from "../../data/ipadWorks";
 import { GalleryGrid } from "./GalleryGrid";
-import { useEvilMode } from "../../hooks/useEvilMode";
 
 export type SortOrder = "oldest" | "newest";
 
@@ -50,7 +49,6 @@ const Title = styled.div`
 
 export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
   const galleryType = (props?.galleryType as string) || "paintings";
-  const { isEvil } = useEvilMode();
   const [sortOrder, setSortOrder] = useState<SortOrder>("oldest");
   const artworks = useMemo(() => {
     if (galleryType === "paintings") return paintings;
@@ -58,7 +56,6 @@ export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
     return digitalWorks;
   }, [galleryType]);
 
-  const visibleCount = artworks.filter((a) => isEvil || !a.evilOnly).length;
   const titleMap: Record<string, React.ReactNode> = {
     paintings: <><Pbrush1 variant="32x32_4" width={14} height={14} /> My Paintings</>,
     mspaint: <><Mspaint variant="16x16_4" width={14} height={14} /> MS Paint Art</>,
@@ -84,7 +81,7 @@ export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
           Sort: {sortOrder === "oldest" ? "Oldest" : "Newest"}
         </Button>
         <Title style={{ flex: 1 }}>
-          {title} ({visibleCount} works)
+          {title} ({artworks.length} works)
         </Title>
       </GalleryToolbar>
       <ContentArea>

@@ -1,10 +1,9 @@
-import { Suspense, useCallback, useState } from "react";
+import { Suspense, useCallback } from "react";
 import styled from "styled-components";
 import { Hourglass, Window, WindowHeader, WindowContent, Button } from "react95";
 import { Mplayer11, Shell321 } from "@react95/icons";
 import { useWindowManager } from "../../hooks/useWindowManager";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import { useEvilMode } from "../../hooks/useEvilMode";
 import { useEasterEgg } from "../../hooks/useEasterEgg";
 import { desktopIcons } from "../../data/desktopIcons";
 import { DesktopIcon } from "./DesktopIcon";
@@ -14,15 +13,13 @@ import { windowRegistry } from "../window/windowRegistry";
 import { Marquee } from "../decorative/Marquee";
 import { Sparkles } from "../decorative/Sparkles";
 import { CursorTrail } from "../decorative/CursorTrail";
-import { GlitchOverlay } from "../evil/GlitchOverlay";
-import { EvilTransition } from "../evil/EvilTransition";
 
-const DesktopWrapper = styled.div<{ $isEvil?: boolean }>`
+const DesktopWrapper = styled.div`
   width: 100vw;
   height: 100svh;
   overflow: hidden;
   position: relative;
-  background-color: ${({ $isEvil }) => ($isEvil ? "#bf8099" : "#ffc0cb")};
+  background-color: #ffc0cb;
   background-image: url("/images/bg.gif");
   background-repeat: repeat;
 `;
@@ -96,14 +93,7 @@ const DialogContent = styled(WindowContent)`
 export function Desktop() {
   const { windows, openWindow } = useWindowManager();
   const isMobile = useIsMobile();
-  const { isEvil, isTransitioning } = useEvilMode();
   const { discovered, showDialog, discover, dismissDialog } = useEasterEgg();
-  const [transitionVisible, setTransitionVisible] = useState(false);
-
-  // Show transition when isTransitioning changes
-  if (isTransitioning && !transitionVisible) {
-    setTransitionVisible(true);
-  }
 
   const handleIconOpen = useCallback(
     (id: string, title: string, componentKey: string, size?: { width: number; height: number }) => {
@@ -126,16 +116,11 @@ export function Desktop() {
   }, [dismissDialog, openWindow]);
 
   return (
-    <DesktopWrapper $isEvil={isEvil}>
-      <Marquee isEvil={isEvil} />
+    <DesktopWrapper>
+      <Marquee />
 
-      <Sparkles isEvil={isEvil} />
-      <CursorTrail isEvil={isEvil} />
-
-      {isEvil && <GlitchOverlay />}
-      {transitionVisible && (
-        <EvilTransition onComplete={() => setTransitionVisible(false)} />
-      )}
+      <Sparkles />
+      <CursorTrail />
 
       <IconGrid>
         {desktopIcons.map((icon) => (

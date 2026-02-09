@@ -2,7 +2,6 @@ export interface GuestbookEntry {
   name: string;
   date: string;
   message: string;
-  evilOnly?: boolean;
 }
 
 export const guestbookEntries: GuestbookEntry[] = [
@@ -47,32 +46,5 @@ export const guestbookEntries: GuestbookEntry[] = [
     date: "2025-10-01",
     message:
       "The way you blend traditional and digital styles is really unique. Following your work from now on!",
-  },
-  // Evil mode entries (creepy/unsettling)
-  {
-    name: "v̷i̸s̴i̸t̷o̵r̸",
-    date: "????-??-??",
-    message: "i've been watching you paint. you never close the curtains.",
-    evilOnly: true,
-  },
-  {
-    name: "nobody",
-    date: "2025-13-32",
-    message: "do you ever feel like your paintings are looking back at you?",
-    evilOnly: true,
-  },
-  {
-    name: "the_wallpaper",
-    date: "1995-01-01",
-    message:
-      "i was here before the website. i was here before the computer. i was here before you. i will be here after.",
-    evilOnly: true,
-  },
-  {
-    name: "happy_visitor!! :)",
-    date: "2025-12-25",
-    message:
-      "everything is fine. nothing is wrong. you are safe. do not look behind you. everything is fine.",
-    evilOnly: true,
   },
 ];

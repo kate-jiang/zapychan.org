@@ -23,7 +23,6 @@ const Sparkle = styled.div<{
   $delay: number;
   $duration: number;
   $size: number;
-  $isEvil?: boolean;
 }>`
   position: absolute;
   left: ${({ $x }) => $x}%;
@@ -34,20 +33,16 @@ const Sparkle = styled.div<{
   animation-delay: ${({ $delay }) => $delay}s;
   font-size: ${({ $size }) => $size}px;
   line-height: 1;
-  filter: ${({ $isEvil }) => ($isEvil ? "hue-rotate(320deg) saturate(0.6)" : "none")};
 `;
 
 interface SparklesProps {
   count?: number;
-  isEvil?: boolean;
 }
 
-export function Sparkles({ count = 18, isEvil }: SparklesProps) {
+export function Sparkles({ count = 18 }: SparklesProps) {
   const sparkles = useMemo(() => {
     const items = [];
-    const chars = isEvil
-      ? ["✦", "✧", "⊗", "◈", "⬥", "▪"]
-      : ["✦", "✧", "♥", "✿", "⋆", "☆"];
+    const chars = ["✦", "✧", "♥", "✿", "⋆", "☆"];
     for (let i = 0; i < count; i++) {
       items.push({
         id: i,
@@ -60,7 +55,7 @@ export function Sparkles({ count = 18, isEvil }: SparklesProps) {
       });
     }
     return items;
-  }, [count, isEvil]);
+  }, [count]);
 
   return (
     <SparkleContainer>
@@ -72,7 +67,6 @@ export function Sparkles({ count = 18, isEvil }: SparklesProps) {
           $delay={s.delay}
           $duration={s.duration}
           $size={s.size}
-          $isEvil={isEvil}
         >
           {s.char}
         </Sparkle>

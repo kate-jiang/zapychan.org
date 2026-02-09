@@ -23,19 +23,18 @@ src/
   frontend.tsx             # React root + ThemeProvider
   App.tsx                  # Root component
   styles/
-    GlobalStyles.ts        # Global CSS, fonts, cursors, evil mode styles
-    theme.ts               # react95 pink theme + evil bruised-pink theme
+    GlobalStyles.ts        # Global CSS, fonts, cursors
+    theme.ts               # react95 pink theme
   hooks/
     useWindowManager.tsx   # Window state context + useReducer (open/close/focus/minimize/move)
     useIsMobile.ts         # Responsive breakpoint hook (768px)
     useEasterEgg.ts        # Hidden icon discovery + localStorage persistence
-    useEvilMode.tsx        # Evil mode context + localStorage persistence
   components/
     desktop/
       Desktop.tsx          # Main layout: wallpaper, icons, windows, taskbar
       DesktopIcon.tsx      # Double-click to open window
       Taskbar.tsx          # Bottom bar: Start button, window list, clock
-      StartMenu.tsx        # Navigation + evil mode toggle
+      StartMenu.tsx        # Navigation menu
     window/
       ManagedWindow.tsx    # Draggable win95 window (fullscreen on mobile)
       windowRegistry.ts    # Maps component keys to React components
@@ -45,7 +44,7 @@ src/
       ArtworkViewer.tsx    # Full image view with metadata
     pages/
       AboutWindow.tsx      # About me page
-      GuestbookWindow.tsx  # Fake guestbook with entries (+ evil entries)
+      GuestbookWindow.tsx  # Fake guestbook with entries
       LinksWindow.tsx      # Cool links page
       ContactWindow.tsx    # Contact/commissions info
       SecretVideosWindow.tsx  # YouTube videos (easter egg reward)
@@ -54,16 +53,12 @@ src/
       Sparkles.tsx         # Random sparkle animations on desktop
       HitCounter.tsx       # Retro visitor counter (fetches /api/hits)
       CursorTrail.tsx      # Sparkle trail following mouse (desktop only)
-    evil/
-      GlitchOverlay.tsx    # Scanlines + screen tear CSS effects
-      GlitchText.tsx       # Zalgo text corruption
-      EvilTransition.tsx   # Flicker/static animation on mode switch
   data/
     paintings.ts           # Painting artwork metadata (placeholder data)
-    digitalWorks.ts        # Digital artwork metadata (12 real MS Paint works + evil-only entries)
+    digitalWorks.ts        # Digital artwork metadata (MS Paint works)
     videos.ts              # YouTube video list (easter egg)
     desktopIcons.ts        # Desktop icon configs
-    guestbookEntries.ts    # Fake guestbook entries (normal + evil-only)
+    guestbookEntries.ts    # Fake guestbook entries
 public/
   gallery/
     digital/
@@ -79,6 +74,5 @@ public/
 - **Window management**: useReducer in useWindowManager.tsx dispatches OPEN/CLOSE/FOCUS/MINIMIZE/MOVE actions. Windows registered in windowRegistry.ts.
 - **Flexbox scroll chain**: StyledWindow (flex column, explicit height, overflow: hidden) > ContentWrapper (flex: 1, min-height: 0) > inner scroll containers (overflow-y: auto, flex: 1, min-height: 0). Every flex container in the chain needs `min-height: 0` to allow shrinking.
 - **Static file serving**: Gallery images served via explicit `/gallery/*` route with `decodeURIComponent()` for filenames with spaces. The `fetch()` handler serves index.html as fallback for client-side routing. Do NOT use `"/*"` in routes — it intercepts all requests.
-- **Evil mode**: Context-based toggle. Components read `isEvil` from useEvilMode. Evil-only gallery items have `evilOnly: true`. Theme swaps to desaturated bruised-pink palette.
 - **Mobile**: Breakpoint at 768px. Windows go fullscreen, icons hidden (Start Menu for nav), gallery grid 2-col, no drag/cursor trail.
 - **Thumbnails**: Generate with `sips -Z 300 <input> --out <output>` on macOS. Slugify filenames (spaces to hyphens, lowercase).

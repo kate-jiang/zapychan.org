@@ -13,12 +13,7 @@ const TrailContainer = styled.div`
   overflow: hidden;
 `;
 
-interface CursorTrailProps {
-  isEvil?: boolean;
-}
-
 const TRAIL_CHARS = ["✦", "♥", "✧", "⋆", "✿", "♡", "˚", "⊹"];
-const EVIL_TRAIL_CHARS = ["✦", "◈", "✧", "⊗", "⬥", "☆", "†", "⛧"];
 
 const TRAIL_COLORS = [
   "#ff69b4", // hot pink
@@ -31,16 +26,7 @@ const TRAIL_COLORS = [
   "#e84de0", // pink-purple
 ];
 
-const EVIL_TRAIL_COLORS = [
-  "#cc3366", // dark rose
-  "#8b2252", // bruised pink
-  "#a0204a", // deep crimson-pink
-  "#660033", // dark wine
-  "#993355", // muted rose
-  "#bb1155", // blood pink
-];
-
-export function CursorTrail({ isEvil }: CursorTrailProps) {
+export function CursorTrail() {
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
   const throttleRef = useRef(0);
@@ -54,16 +40,14 @@ export function CursorTrail({ isEvil }: CursorTrailProps) {
       const container = containerRef.current;
       if (!container) return;
 
-      const chars = isEvil ? EVIL_TRAIL_CHARS : TRAIL_CHARS;
-      const colors = isEvil ? EVIL_TRAIL_COLORS : TRAIL_COLORS;
       const count = 2 + Math.floor(Math.random() * 2); // 2-3 particles per tick
       for (let i = 0; i < count; i++) {
-        const color = colors[Math.floor(Math.random() * colors.length)] ?? colors[0];
+        const color = TRAIL_COLORS[Math.floor(Math.random() * TRAIL_COLORS.length)] ?? TRAIL_COLORS[0];
         const size = 6 + Math.random() * 8;
         const offsetX = (Math.random() - 0.5) * 28;
         const offsetY = (Math.random() - 0.5) * 28;
         const particle = document.createElement("div");
-        particle.textContent = chars[Math.floor(Math.random() * chars.length)] ?? "✦";
+        particle.textContent = TRAIL_CHARS[Math.floor(Math.random() * TRAIL_CHARS.length)] ?? "✦";
         particle.style.cssText = `
           position: fixed;
           left: ${e.clientX + offsetX}px;
@@ -80,7 +64,7 @@ export function CursorTrail({ isEvil }: CursorTrailProps) {
         setTimeout(() => particle.remove(), 600);
       }
     },
-    [isEvil],
+    [],
   );
 
   useEffect(() => {

@@ -1,27 +1,17 @@
 import { ThemeProvider } from "styled-components";
-import { pinkTheme, evilTheme } from "./styles/theme";
+import { pinkTheme } from "./styles/theme";
 import { GlobalStyles } from "./styles/GlobalStyles";
 import { WindowManagerProvider } from "./hooks/useWindowManager";
-import { EvilModeProvider, useEvilMode } from "./hooks/useEvilMode";
 import { Desktop } from "./components/desktop/Desktop";
 
-function AppInner() {
-  const { isEvil } = useEvilMode();
+export function App() {
   return (
-    <ThemeProvider theme={isEvil ? evilTheme : pinkTheme}>
-      <GlobalStyles $isEvil={isEvil} />
+    <ThemeProvider theme={pinkTheme}>
+      <GlobalStyles />
       <WindowManagerProvider>
         <Desktop />
       </WindowManagerProvider>
     </ThemeProvider>
-  );
-}
-
-export function App() {
-  return (
-    <EvilModeProvider>
-      <AppInner />
-    </EvilModeProvider>
   );
 }
 

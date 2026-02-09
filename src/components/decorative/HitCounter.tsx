@@ -30,11 +30,7 @@ const Digit = styled(Frame)`
   line-height: 20px;
 `;
 
-interface HitCounterProps {
-  isEvil?: boolean;
-}
-
-export function HitCounter({ isEvil }: HitCounterProps) {
+export function HitCounter() {
   const [count, setCount] = useState<number | null>(null);
 
   useEffect(() => {
@@ -48,10 +44,10 @@ export function HitCounter({ isEvil }: HitCounterProps) {
 
   return (
     <CounterWrapper>
-      <span>{isEvil ? "souls collected:" : "visitors:"}</span>
+      <span>visitors:</span>
       <Digits>
         {digits.split("").map((d, i) => (
-          <Digit variant="field" key={i} style={isEvil ? { color: "#cc3366" } : undefined}>
+          <Digit variant="field" key={i}>
             {d}
           </Digit>
         ))}

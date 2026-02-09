@@ -1,9 +1,7 @@
-import { useMemo } from "react";
 import { Frame } from "react95";
 import styled from "styled-components";
 import { Notepad } from "@react95/icons";
 import { guestbookEntries } from "../../data/guestbookEntries";
-import { useEvilMode } from "../../hooks/useEvilMode";
 
 const Wrapper = styled.div`
   padding: 16px;
@@ -59,22 +57,14 @@ const EntryMessage = styled.p`
 `;
 
 export function GuestbookWindow() {
-  const { isEvil } = useEvilMode();
-  const entries = useMemo(
-    () => guestbookEntries.filter((e) => isEvil || !e.evilOnly),
-    [isEvil],
-  );
-
   return (
     <Wrapper>
-      <Title>{isEvil ? <><Notepad variant="16x16_4" style={{ verticalAlign: "middle", marginRight: 4 }} /> G̵u̸e̷s̶t̵b̶o̸o̵k̷ <Notepad variant="16x16_4" style={{ verticalAlign: "middle", marginLeft: 4 }} /></> : <><Notepad variant="16x16_4" style={{ verticalAlign: "middle", marginRight: 4 }} /> Guestbook <Notepad variant="16x16_4" style={{ verticalAlign: "middle", marginLeft: 4 }} /></>}</Title>
+      <Title><Notepad variant="16x16_4" style={{ verticalAlign: "middle", marginRight: 4 }} /> Guestbook <Notepad variant="16x16_4" style={{ verticalAlign: "middle", marginLeft: 4 }} /></Title>
       <Subtitle>
-        {isEvil
-          ? "~*~ they left messages for you ~*~"
-          : "~*~ sign my guestbook!! leave a message below ~*~"}
+        ~*~ sign my guestbook!! leave a message below ~*~
       </Subtitle>
       <EntryList>
-        {entries.map((entry, i) => (
+        {guestbookEntries.map((entry, i) => (
           <Entry key={i} variant="well">
             <EntryHeader>
               <EntryName>{entry.name}</EntryName>

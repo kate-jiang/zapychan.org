@@ -5,7 +5,6 @@ import type { Artwork } from "../../data/paintings";
 import type { SortOrder } from "./GalleryWindow";
 import { useWindowManager } from "../../hooks/useWindowManager";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import { useEvilMode } from "../../hooks/useEvilMode";
 
 interface GalleryGridProps {
   artworks: Artwork[];
@@ -89,18 +88,14 @@ function getDateKey(a: Artwork): string {
 
 export function GalleryGrid({
   artworks,
-  windowId,
   sortOrder,
 }: GalleryGridProps) {
   const [page, setPage] = useState(1);
   const { openWindow } = useWindowManager();
   const isMobile = useIsMobile();
-  const { isEvil } = useEvilMode();
 
-  // Show evil-only works only in evil mode, then sort by date
   const visibleWorks = useMemo(() => {
-    const filtered = artworks.filter((a) => isEvil || !a.evilOnly);
-    const sorted = [...filtered].sort((a, b) => {
+    const sorted = [...artworks].sort((a, b) => {
       const da = getDateKey(a);
       const db = getDateKey(b);
       return sortOrder === "oldest"
@@ -108,7 +103,7 @@ export function GalleryGrid({
         : db.localeCompare(da);
     });
     return sorted;
-  }, [artworks, isEvil, sortOrder]);
+  }, [artworks, sortOrder]);
 
   const displayedWorks = useMemo(
     () => visibleWorks.slice(0, page * PAGE_SIZE),

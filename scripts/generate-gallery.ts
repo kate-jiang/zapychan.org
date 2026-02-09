@@ -20,7 +20,6 @@ interface GalleryConfig {
   exportName: string;
   medium: string;
   idPrefix: string;
-  evilEntries?: string[];
 }
 
 const galleries: GalleryConfig[] = [
@@ -31,31 +30,6 @@ const galleries: GalleryConfig[] = [
     exportName: "digitalWorks",
     medium: "MS Paint Art",
     idPrefix: "d",
-    evilEntries: [
-      `  // Evil-only hidden digital works`,
-      `  {`,
-      `    id: "d-evil1",`,
-      `    title: "glitch_portrait_FINAL_real.psd",`,
-      `    year: 2025,`,
-      `    medium: "Digital (???)",`,
-      `    thumbnail: "/gallery/digital/thumbs/glitch-portrait.jpg",`,
-      `    fullImage: "/gallery/digital/full/glitch-portrait.jpg",`,
-      `    description: "I don't remember making this.",`,
-      `    date: "2025-01-01",`,
-      `    evilOnly: true,`,
-      `  },`,
-      `  {`,
-      `    id: "d-evil2",`,
-      `    title: "DO NOT OPEN",`,
-      `    year: 2023,`,
-      `    medium: "Digital (corrupted)",`,
-      `    thumbnail: "/gallery/digital/thumbs/do-not-open.jpg",`,
-      `    fullImage: "/gallery/digital/full/do-not-open.jpg",`,
-      `    description: "This file was found in a folder that shouldn't exist.",`,
-      `    date: "2023-06-15",`,
-      `    evilOnly: true,`,
-      `  },`,
-    ],
   },
   {
     fullDir: "public/gallery/ipad/full",
@@ -193,19 +167,12 @@ async function processGallery(config: GalleryConfig): Promise<void> {
     lines.push(`    date: ${JSON.stringify(entry.date)},`);
     lines.push(`  },`);
   }
-  if (config.evilEntries) {
-    lines.push(...config.evilEntries);
-  }
   lines.push(`];`);
   lines.push(``);
 
   await Bun.write(config.outputFile, lines.join("\n"));
-  const evilCount = config.evilEntries
-    ? config.evilEntries.filter((l) => l.includes("evilOnly")).length
-    : 0;
-  const suffix = evilCount ? ` (+ ${evilCount} evil-only)` : "";
   console.log(
-    `Wrote ${entries.length} entries${suffix} to ${config.outputFile}`
+    `Wrote ${entries.length} entries to ${config.outputFile}`
   );
 }
 
