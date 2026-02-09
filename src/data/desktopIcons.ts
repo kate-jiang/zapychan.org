@@ -1,5 +1,5 @@
 import React from "react";
-import { Mspaint, Pbrush1, Notepad, Wangimg130 } from "@react95/icons";
+import { Mspaint, Pbrush1, Wangimg130 } from "@react95/icons";
 
 export interface DesktopIconConfig {
   id: string;
@@ -16,21 +16,21 @@ export const desktopIcons: DesktopIconConfig[] = [
     label: "MS Paint Art",
     windowTitle: "MS Paint Art",
     componentKey: "gallery",
-    icon: React.createElement(Pbrush1, { variant: "32x32_4" }),
+    icon: React.createElement(Pbrush1, { variant: "32x32_4", width: 42, height: 42 }),
   },
   {
     id: "ipad",
     label: "iPad Art",
     windowTitle: "iPad Art",
     componentKey: "gallery",
-    icon: React.createElement(Wangimg130, { variant: "32x32_4" }),
+    icon: React.createElement(Wangimg130, { variant: "32x32_4", width: 42, height: 42 }),
   },
   {
     id: "about",
     label: "About.txt",
     windowTitle: "About Me",
     componentKey: "about",
-    icon: React.createElement(Notepad, { variant: "32x32_4" }),
+    icon: React.createElement("img", { src: "/images/pfp.png", width: 42, height: 42, style: { imageRendering: "pixelated" as const }, alt: "" }),
     size: { width: 480, height: 520 },
   },
   {
@@ -38,7 +38,7 @@ export const desktopIcons: DesktopIconConfig[] = [
     label: "Paint",
     windowTitle: "untitled - Paint",
     componentKey: "mspaintApp",
-    icon: React.createElement(Mspaint, { variant: "32x32_4" }),
+    icon: React.createElement(Mspaint, { variant: "32x32_4", width: 42, height: 42 }),
     size: { width: 720, height: 560 },
   },
 ];

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { MenuList, MenuListItem as MenuListItemBase, Separator } from "react95";
 import styled, { keyframes } from "styled-components";
-import { Mspaint, Pbrush1, Notepad, Settings, WindowsExplorer, Computer } from "@react95/icons";
+import { Mspaint, Pbrush1, Wangimg130, Settings, WindowsExplorer, Computer } from "@react95/icons";
 import { useWindowManager } from "../../hooks/useWindowManager";
 import { useEvilMode } from "../../hooks/useEvilMode";
 
@@ -113,7 +113,7 @@ export function StartMenu({ onClose }: StartMenuProps) {
             })
           }
         >
-          <MenuIcon><Mspaint variant="16x16_4" /></MenuIcon>
+          <MenuIcon><Pbrush1 variant="32x32_4" width={16} height={16} /></MenuIcon>
           {isEvil ? "M̸S̷ P̵a̶i̸n̷t̸ A̷r̵t̸" : "MS Paint Art"}
         </StyledMenuItem>
         <StyledMenuItem
@@ -123,7 +123,7 @@ export function StartMenu({ onClose }: StartMenuProps) {
             })
           }
         >
-          <MenuIcon><Pbrush1 variant="32x32_4" width={16} height={16} /></MenuIcon>
+          <MenuIcon><Wangimg130 variant="32x32_4" width={16} height={16} /></MenuIcon>
           {isEvil ? "i̸P̷a̵d̶ A̵r̸t̷" : "iPad Art"}
         </StyledMenuItem>
         <StyledMenuItem
@@ -138,7 +138,7 @@ export function StartMenu({ onClose }: StartMenuProps) {
         <StyledMenuItem
           onClick={() => handleOpen("about", isEvil ? "A̷b̸o̵u̶t̸ M̷e̵" : "About Me", "about", undefined, { width: 480, height: 520 })}
         >
-          <MenuIcon><Notepad variant="16x16_4" /></MenuIcon>
+          <MenuIcon><img src="/images/pfp.png" width={16} height={16} style={{ imageRendering: "pixelated" }} alt="" /></MenuIcon>
           {isEvil ? "A̷b̸o̵u̶t̸ M̷e̵" : "About Me"}
         </StyledMenuItem>
         <Separator />

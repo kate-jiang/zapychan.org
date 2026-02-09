@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { AppBar, Toolbar, Button, Frame } from "react95";
 import styled from "styled-components";
-import { Progman1, Mmsys110, Mail } from "@react95/icons";
+import { Mmsys110, Mail } from "@react95/icons";
 import { useWindowManager } from "../../hooks/useWindowManager";
 import { useEvilMode } from "../../hooks/useEvilMode";
 import { useIsMobile } from "../../hooks/useIsMobile";
@@ -44,7 +44,7 @@ const WindowButtons = styled.div`
   }
 `;
 
-const WindowButton = styled(Button)<{ $isActive: boolean }>`
+const WindowButton = styled(Button) <{ $isActive: boolean }>`
   max-width: 170px;
   min-width: 70px;
   overflow: hidden;
@@ -63,7 +63,7 @@ const SystemTray = styled.div`
   align-self: stretch;
 `;
 
-const TrayCell = styled(Frame)<{ $clickable?: boolean }>`
+const TrayCell = styled(Frame) <{ $clickable?: boolean }>`
   font-size: 13px;
   cursor: ${({ $clickable }) => ($clickable ? "pointer" : "default")};
   user-select: none;
@@ -246,7 +246,7 @@ export function Taskbar() {
     <TaskbarWrapper ref={taskbarRef}>
       <TaskbarToolbar>
         <StartButton active={startOpen} onClick={toggleStart}>
-          <Progman1 variant="32x32_4" width={16} height={16} style={{ marginRight: 4 }} /> Start
+          <img src="/images/pfp_small.png" width={22} height={22} style={{ marginRight: 4, imageRendering: "pixelated" }} alt="" /> Start
         </StartButton>
 
         <WindowButtons>
