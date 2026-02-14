@@ -7,3 +7,11 @@ CREATE TABLE IF NOT EXISTS views (
 INSERT INTO views (count, updated_at)
 SELECT 0, datetime('now')
 WHERE NOT EXISTS (SELECT 1 FROM views);
+
+CREATE TABLE IF NOT EXISTS guestbook (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  message TEXT NOT NULL,
+  ip_hash TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);

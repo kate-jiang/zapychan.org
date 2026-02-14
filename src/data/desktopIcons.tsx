@@ -1,5 +1,5 @@
 import React from "react";
-import { Mspaint, Pbrush1, Wangimg130, CurvesAndColors100 } from "@react95/icons";
+import { Mspaint, Notepad, Pbrush1, Wangimg130, CurvesAndColors100 } from "@react95/icons";
 
 const IconImg = ({ src, style }: { src: string; style?: React.CSSProperties }) => (
   <img
@@ -62,6 +62,14 @@ export const desktopIcons: DesktopIconConfig[] = [
     windowTitle: "About Me",
     componentKey: "about",
     icon: <IconImg src="/images/icons/pfp-icon.png" style={{ imageRendering: "pixelated" }} />,
+    size: { width: 480, height: 520 },
+  },
+  {
+    id: "guestbook",
+    label: "Guestbook",
+    windowTitle: "Guestbook",
+    componentKey: "guestbook",
+    icon: <Notepad variant="32x32_4" width={42} height={42} />,
     size: { width: 480, height: 520 },
   },
   {
