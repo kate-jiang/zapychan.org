@@ -63,19 +63,28 @@ const ToolPanel = styled.div<{ $isMobile: boolean }>`
   `}
 `;
 
-const ToolBtn = styled(Button)`
+const ToolBtn = styled.button<{ $selected?: boolean }>`
   width: 24px;
   height: 24px;
   min-width: 24px;
   padding: 0;
+  border: none;
+  outline: none;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   flex-shrink: 0;
+  cursor: pointer;
+  color: ${({ theme }) => theme.materialText};
+  background: ${({ $selected, theme }) => ($selected ? theme.flatLight : theme.material)};
+  box-shadow: ${({ $selected, theme }) =>
+    $selected
+      ? `inset 1px 1px 0 0 ${theme.borderDark}, inset -1px -1px 0 0 ${theme.borderLightest}`
+      : `inset -1px -1px 0 0 ${theme.borderDark}, inset 1px 1px 0 0 ${theme.borderLightest}`};
 
-  .emoji {
-    font-size: 11px;
+  &:hover {
+    background: ${({ theme }) => theme.flatLight};
   }
 `;
 
@@ -242,13 +251,13 @@ const MenuBarItem = styled.div`
 // --- Tool icons (emoji stand-ins, compact) ---
 
 const TOOL_ICONS: Record<PaintTool, React.ReactNode> = {
-  pencil: "✏️",
-  eraser: "🧹",
-  fill: "🪣",
+  pencil: <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/></svg>,
+  eraser: <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293z"/></svg>,
+  fill: <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M6.192 2.78c-.458-.677-.927-1.248-1.35-1.643a3 3 0 0 0-.71-.515c-.217-.104-.56-.205-.882-.02-.367.213-.427.63-.43.896-.003.304.064.664.173 1.044.196.687.556 1.528 1.035 2.402L.752 8.22c-.277.277-.269.656-.218.918.055.283.187.593.36.903.348.627.92 1.361 1.626 2.068.707.707 1.441 1.278 2.068 1.626.31.173.62.305.903.36.262.05.64.059.918-.218l5.615-5.615c.118.257.092.512.05.939-.03.292-.068.665-.073 1.176v.123h.003a1 1 0 0 0 1.993 0H14v-.057a1 1 0 0 0-.004-.117c-.055-1.25-.7-2.738-1.86-3.494a4 4 0 0 0-.211-.434c-.349-.626-.92-1.36-1.627-2.067S8.857 3.052 8.23 2.704c-.31-.172-.62-.304-.903-.36-.262-.05-.64-.058-.918.219zM4.16 1.867c.381.356.844.922 1.311 1.632l-.704.705c-.382-.727-.66-1.402-.813-1.938a3.3 3.3 0 0 1-.131-.673q.137.09.337.274m.394 3.965c.54.852 1.107 1.567 1.607 2.033a.5.5 0 1 0 .682-.732c-.453-.422-1.017-1.136-1.564-2.027l1.088-1.088q.081.181.183.365c.349.627.92 1.361 1.627 2.068.706.707 1.44 1.278 2.068 1.626q.183.103.365.183l-4.861 4.862-.068-.01c-.137-.027-.342-.104-.608-.252-.524-.292-1.186-.8-1.846-1.46s-1.168-1.32-1.46-1.846c-.147-.265-.225-.47-.251-.607l-.01-.068zm2.87-1.935a2.4 2.4 0 0 1-.241-.561c.135.033.324.11.562.241.524.292 1.186.8 1.846 1.46.45.45.83.901 1.118 1.31a3.5 3.5 0 0 0-1.066.091 11 11 0 0 1-.76-.694c-.66-.66-1.167-1.322-1.458-1.847z"/></svg>,
   line: "╱",
   rectangle: "▭",
   ellipse: "◯",
-  colorPicker: <svg viewBox="0 0 24 24" width="16" height="16" fill="#09244B"><path d="M20.477 3.511c-1.171-1.172-3.071-1.172-4.243 0l-1.533 1.533c-1.112-.535-2.487-.341-3.41.581l-.714.714c-.781.781-.781 2.048 0 2.829l-6.485 6.485a2.99 2.99 0 0 0-.878 2.121v1.8c0 .663.537 1.2 1.2 1.2h1.8a2.99 2.99 0 0 0 2.121-.879l6.486-6.485c.78.781 2.047.781 2.828 0l.714-.714c.922-.923 1.116-2.297.581-3.41l1.533-1.533c1.171-1.171 1.171-3.071 0-4.243zM5.507 17.068l6.485-6.486 1.414 1.414-6.485 6.486a.997.997 0 0 1-.707.293h-1v-1c0-.265.105-.52.293-.707z"/></svg>,
+  colorPicker: <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.477 3.511c-1.171-1.172-3.071-1.172-4.243 0l-1.533 1.533c-1.112-.535-2.487-.341-3.41.581l-.714.714c-.781.781-.781 2.048 0 2.829l-6.485 6.485a2.99 2.99 0 0 0-.878 2.121v1.8c0 .663.537 1.2 1.2 1.2h1.8a2.99 2.99 0 0 0 2.121-.879l6.486-6.485c.78.781 2.047.781 2.828 0l.714-.714c.922-.923 1.116-2.297.581-3.41l1.533-1.533c1.171-1.171 1.171-3.071 0-4.243zM5.507 17.068l6.485-6.486 1.414 1.414-6.485 6.486a.997.997 0 0 1-.707.293h-1v-1c0-.265.105-.52.293-.707z"/></svg>,
   text: "A",
 };
 
@@ -263,7 +272,6 @@ const TOOL_LABELS: Record<PaintTool, string> = {
   text: "Text",
 };
 
-const EMOJI_TOOLS = new Set<PaintTool>(["pencil", "eraser", "fill"]);
 
 const ALL_TOOLS: PaintTool[] = [
   "pencil",
@@ -957,12 +965,11 @@ export function MSPaintWindow({ windowId: _windowId }: MSPaintWindowProps) {
           {ALL_TOOLS.map((t) => (
             <ToolBtn
               key={t}
-              square
-              active={tool === t}
+              $selected={tool === t}
               onClick={() => setTool(t)}
               title={TOOL_LABELS[t]}
             >
-              {EMOJI_TOOLS.has(t) ? <span className="emoji">{TOOL_ICONS[t]}</span> : TOOL_ICONS[t]}
+              {TOOL_ICONS[t]}
             </ToolBtn>
           ))}
           <BrushSizeSelector $isMobile={isMobile}>
