@@ -35,13 +35,7 @@ const FormFrame = styled(Frame)`
   padding: 12px;
   margin-bottom: 16px;
   box-sizing: border-box;
-`;
-
-const FormTitle = styled.div`
-  font-size: 12px;
-  font-weight: bold;
-  color: #ff1493;
-  margin-bottom: 8px;
+  width: 100%;
 `;
 
 const FieldRow = styled.div`
@@ -139,6 +133,7 @@ export function GuestbookWindow() {
     text: string;
   } | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [signed, setSigned] = useState(false);
 
   const fetchEntries = useCallback(async () => {
     try {
@@ -180,6 +175,7 @@ export function GuestbookWindow() {
         setName("");
         setMessage("");
         setStatus({ type: "success", text: "thanks for signing!! ~*~" });
+        setSigned(true);
       } else {
         const err = await res.json();
         setStatus({
@@ -209,50 +205,53 @@ export function GuestbookWindow() {
       </Title>
       <Subtitle>~*~ sign my guestbook!! leave a message below ~*~</Subtitle>
 
-      <FormFrame variant="well">
-        <FormTitle>~ Sign the Guestbook ~</FormTitle>
-        <FieldRow>
-          <Label>
-            Name: <CharCount>{name.length}/30</CharCount>
-          </Label>
-          <TextInput
-            value={name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setName(e.target.value.slice(0, 30))
-            }
-            placeholder="your name~"
-            fullWidth
-            disabled={submitting}
-          />
-        </FieldRow>
-        <FieldRow>
-          <Label>
-            Message: <CharCount>{message.length}/500</CharCount>
-          </Label>
-          <TextInput
-            value={message}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setMessage(e.target.value.slice(0, 500))
-            }
-            placeholder="leave a message! ~*~"
-            multiline
-            rows={3}
-            fullWidth
-            disabled={submitting}
-          />
-        </FieldRow>
-        <FormFooter>
-          <Button
-            onClick={handleSubmit}
-            disabled={submitting || !name.trim() || !message.trim()}
-          >
-            {submitting ? "Signing..." : "Sign!"}
-          </Button>
-          {status && (
-            <StatusMessage $variant={status.type}>{status.text}</StatusMessage>
-          )}
-        </FormFooter>
-      </FormFrame>
+      {signed ? (
+        <StatusMessage $variant="success">thanks for signing!! ~*~</StatusMessage>
+      ) : (
+        <FormFrame variant="well">
+          <FieldRow>
+            <Label>
+              Name: <CharCount>{name.length}/30</CharCount>
+            </Label>
+            <TextInput
+              value={name}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setName(e.target.value.slice(0, 30))
+              }
+              placeholder="your name~"
+              fullWidth
+              disabled={submitting}
+            />
+          </FieldRow>
+          <FieldRow>
+            <Label>
+              Message: <CharCount>{message.length}/500</CharCount>
+            </Label>
+            <TextInput
+              value={message}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setMessage(e.target.value.slice(0, 500))
+              }
+              placeholder="leave a message! ~*~"
+              multiline
+              rows={3}
+              fullWidth
+              disabled={submitting}
+            />
+          </FieldRow>
+          <FormFooter>
+            <Button
+              onClick={handleSubmit}
+              disabled={submitting || !name.trim() || !message.trim()}
+            >
+              {submitting ? "Signing..." : "Sign!"}
+            </Button>
+            {status && (
+              <StatusMessage $variant={status.type}>{status.text}</StatusMessage>
+            )}
+          </FormFooter>
+        </FormFrame>
+      )}
 
       {loading ? (
         <LoadingText>loading entries...</LoadingText>
