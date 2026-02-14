@@ -79,27 +79,25 @@ export function DesktopIcon({
 }: DesktopIconProps) {
   const isMobile = useIsMobile();
   const nodeRef = useRef<HTMLDivElement>(null);
-  const isDraggingRef = useRef(false);
+  const didDragRef = useRef(false);
   const dragStartPos = useRef({ x: 0, y: 0 });
 
   const handleStart = useCallback((_e: DraggableEvent, data: DraggableData) => {
     dragStartPos.current = { x: data.x, y: data.y };
-    isDraggingRef.current = false;
+    didDragRef.current = false;
   }, []);
 
   const handleDrag = useCallback((_e: DraggableEvent, data: DraggableData) => {
     const dx = data.x - dragStartPos.current.x;
     const dy = data.y - dragStartPos.current.y;
     if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
-      isDraggingRef.current = true;
+      didDragRef.current = true;
     }
   }, []);
 
   const handleStop = useCallback(
     (_e: DraggableEvent, data: DraggableData) => {
-      const wasDragging = isDraggingRef.current;
-      isDraggingRef.current = false;
-      if (wasDragging && onDragEnd) {
+      if (didDragRef.current && onDragEnd) {
         onDragEnd({ x: data.x, y: data.y });
       }
     },
@@ -107,12 +105,18 @@ export function DesktopIcon({
   );
 
   const handleDoubleClick = useCallback(() => {
-    if (isDraggingRef.current) return;
+    if (didDragRef.current) {
+      didDragRef.current = false;
+      return;
+    }
     onDoubleClick();
   }, [onDoubleClick]);
 
   const handleClick = useCallback(() => {
-    if (isDraggingRef.current) return;
+    if (didDragRef.current) {
+      didDragRef.current = false;
+      return;
+    }
     if (isMobile) onDoubleClick();
   }, [isMobile, onDoubleClick]);
 
