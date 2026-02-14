@@ -71,12 +71,24 @@ function reducer(state: State, action: Action): State {
       }
       cascadeOffset = (cascadeOffset + 1) % 8;
       const defaultSize = { width: 600, height: 600 };
+      const winSize = action.payload.size ?? defaultSize;
+
+      // Clamp position so window stays within viewport
+      const vw = typeof window !== "undefined" ? window.innerWidth : 1200;
+      const vh = typeof window !== "undefined" ? window.innerHeight : 800;
+      const taskbarH = 48;
+      const pad = 30;
+      const effectiveW = Math.min(winSize.width, vw - 2 * pad);
+      const effectiveH = Math.min(winSize.height, vh - taskbarH - pad);
+      const x = Math.max(pad, Math.min(60 + cascadeOffset * 30, vw - effectiveW - pad));
+      const y = Math.max(0, Math.min(40 + cascadeOffset * 30, vh - effectiveH - taskbarH - pad));
+
       const newWindow: WindowState = {
         id: action.payload.id,
         title: action.payload.title,
         componentKey: action.payload.componentKey,
-        position: { x: 60 + cascadeOffset * 30, y: 40 + cascadeOffset * 30 },
-        size: action.payload.size ?? defaultSize,
+        position: { x, y },
+        size: winSize,
         zIndex: state.nextZIndex,
         isMinimized: false,
         isMaximized: false,

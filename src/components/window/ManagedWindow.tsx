@@ -49,7 +49,7 @@ const StyledWindow = styled(Window) <{
     height: ${$height}px;
     min-height: 300px;
     max-width: calc(100vw - 20px);
-    max-height: calc(100vh - 60px);
+    max-height: calc(100vh - 48px - 10px);
     resize: both;
     overflow: hidden;
   `}
@@ -131,8 +131,8 @@ export function ManagedWindow({ windowState, children }: ManagedWindowProps) {
 
       const handlePointerMove = (ev: PointerEvent) => {
         moveWindow(windowState.id, {
-          x: Math.max(0, ev.clientX - startX),
-          y: Math.max(0, ev.clientY - startY),
+          x: ev.clientX - startX,
+          y: ev.clientY - startY,
         });
       };
 
