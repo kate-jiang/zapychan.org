@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import styled, { keyframes } from "styled-components";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 const twinkle = keyframes`
   0%, 100% { opacity: 0; transform: scale(0.5) rotate(90deg); }
@@ -47,10 +48,13 @@ interface SparklesProps {
 }
 
 export function Sparkles({ count = 100 }: SparklesProps) {
+  const isMobile = useIsMobile();
+  const effectiveCount = isMobile ? Math.min(count, 50) : count;
+
   const sparkles = useMemo(() => {
     const items = [];
     const chars = ["✦", "✧", "♥", "✿", "⋆", "☆"];
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < effectiveCount; i++) {
       items.push({
         id: i,
         x: Math.random() * 95,
@@ -63,7 +67,7 @@ export function Sparkles({ count = 100 }: SparklesProps) {
       });
     }
     return items;
-  }, [count]);
+  }, [effectiveCount]);
 
   return (
     <SparkleContainer>
