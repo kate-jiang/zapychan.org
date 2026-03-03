@@ -1,5 +1,5 @@
 import React from "react";
-import { Mspaint, Notepad, Pbrush1, Wangimg130, CurvesAndColors100 } from "@react95/icons";
+import { Mspaint, Notepad, Pbrush1, Wangimg130, CurvesAndColors100, RecycleFull } from "@react95/icons";
 
 const IconImg = ({ src, style }: { src: string; style?: React.CSSProperties }) => (
   <img
@@ -79,5 +79,12 @@ export const desktopIcons: DesktopIconConfig[] = [
     componentKey: "guestbook",
     icon: <Notepad variant="32x32_4" width={42} height={42} />,
     size: { width: 480, height: 520 },
+  },
+  {
+    id: "trash",
+    label: "Trash",
+    windowTitle: "Trash",
+    componentKey: "gallery",
+    icon: <RecycleFull variant="32x32_4" width={42} height={42} />,
   },
 ];

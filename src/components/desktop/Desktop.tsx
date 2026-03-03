@@ -21,8 +21,9 @@ const DEFAULT_POSITIONS: Record<string, { x: number; y: number }> = {
   gif: { x: 110, y: 32 },
   selfPortraits: { x: 110, y: 128 },
   paintApp: { x: 110, y: 224 },
-  about: { x: 12, y: 360 },
-  guestbook: { x: 110, y: 360 },
+  about: { x: 12, y: 320 },
+  guestbook: { x: 110, y: 320 },
+  trash: { x: 12, y: 416 },
 };
 
 function loadIconPositions(): Record<string, { x: number; y: number }> {
@@ -85,9 +86,11 @@ export function Desktop() {
   const [iconPositions, setIconPositions] = useState<Record<string, { x: number; y: number }>>(loadIconPositions);
 
   const getPosition = useCallback(
-    (id: string) => isMobile
-      ? DEFAULT_POSITIONS[id] || { x: 12, y: 32 }
-      : iconPositions[id] || DEFAULT_POSITIONS[id] || { x: 12, y: 32 },
+    (id: string) => {
+      return isMobile
+        ? DEFAULT_POSITIONS[id] || { x: 12, y: 32 }
+        : iconPositions[id] || DEFAULT_POSITIONS[id] || { x: 12, y: 32 };
+    },
     [isMobile, iconPositions],
   );
 

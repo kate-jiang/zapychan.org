@@ -63,6 +63,14 @@ const galleries: GalleryConfig[] = [
     medium: "me irl",
     idPrefix: "sp",
   },
+  {
+    fullDir: "public/gallery/trash/full",
+    thumbDir: "public/gallery/trash/thumbs",
+    outputFile: "src/data/trashWorks.ts",
+    exportName: "trashWorks",
+    medium: "Recycled",
+    idPrefix: "tr",
+  },
 ];
 
 function slugify(filename: string): string {

@@ -1,12 +1,13 @@
 import { useMemo, useState } from "react";
 import styled from "styled-components";
 import { Toolbar, Button } from "react95";
-import { Pbrush1, Wangimg130, CurvesAndColors100 } from "@react95/icons";
+import { Pbrush1, Wangimg130, CurvesAndColors100, RecycleFull } from "@react95/icons";
 import { paintings } from "../../data/paintings";
 import { msPaintWorks } from "../../data/msPaintWorks";
 import { ipadWorks } from "../../data/ipadWorks";
 import { gifWorks } from "../../data/gifWorks";
 import { selfPortraits } from "../../data/selfPortraits";
+import { trashWorks } from "../../data/trashWorks";
 import { GalleryGrid } from "./GalleryGrid";
 
 export type SortOrder = "oldest" | "newest";
@@ -47,7 +48,6 @@ const Title = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: 4px;
-
 `;
 
 export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
@@ -58,6 +58,7 @@ export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
     if (galleryType === "ipad") return ipadWorks;
     if (galleryType === "gif") return gifWorks;
     if (galleryType === "selfPortraits") return selfPortraits;
+    if (galleryType === "trash") return trashWorks;
     return msPaintWorks;
   }, [galleryType]);
 
@@ -68,10 +69,11 @@ export function GalleryWindow({ windowId, props }: GalleryWindowProps) {
     ipad: <><span style={iconStyle}><CurvesAndColors100 variant="32x32_4" width={14} height={14} /></span> iPad Art</>,
     gif: <><img src="/images/icons/gif-icon.png" width={14} height={14} style={{ objectFit: "cover", ...iconStyle }} alt="" /> GIFs</>,
     selfPortraits: <><img src="/images/icons/wired-icon.png" width={14} height={14} style={{ objectFit: "cover", ...iconStyle }} alt="" /> Self Portraits</>,
+    trash: <><span style={iconStyle}><RecycleFull variant="32x32_4" width={14} height={14} /></span> Trash</>,
   };
   const title = titleMap[galleryType] ?? <><span style={iconStyle}><Wangimg130 variant="32x32_4" width={14} height={14} /></span> Gallery</>;
 
-  const hideDate = galleryType === "gif" || galleryType === "selfPortraits";
+  const hideDate = galleryType === "gif" || galleryType === "selfPortraits" || galleryType === "trash";
 
   const toggleSort = () =>
     setSortOrder((prev) => (prev === "oldest" ? "newest" : "oldest"));

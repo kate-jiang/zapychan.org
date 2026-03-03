@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { MenuList, MenuListItem as MenuListItemBase, Separator } from "react95";
 import styled from "styled-components";
-import { Mspaint, Notepad, Pbrush1, Wangimg130, Computer, CurvesAndColors100 } from "@react95/icons";
+import { Mspaint, Notepad, Pbrush1, Wangimg130, Computer, CurvesAndColors100, RecycleFull } from "@react95/icons";
 import { useWindowManager } from "../../hooks/useWindowManager";
 
 interface StartMenuProps {
@@ -144,6 +144,16 @@ export function StartMenu({ onClose }: StartMenuProps) {
         >
           <MenuIcon><Notepad variant="16x16_4" /></MenuIcon>
           Guestbook
+        </StyledMenuItem>
+        <StyledMenuItem
+          onClick={() =>
+            handleOpen("trash", "Trash", "gallery", {
+              galleryType: "trash",
+            })
+          }
+        >
+          <MenuIcon><RecycleFull variant="16x16_4" /></MenuIcon>
+          Trash
         </StyledMenuItem>
         <Separator />
         <StyledMenuItem disabled>
