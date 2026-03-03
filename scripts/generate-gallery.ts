@@ -60,7 +60,7 @@ const galleries: GalleryConfig[] = [
     thumbDir: "public/gallery/self portraits/thumbs",
     outputFile: "src/data/selfPortraits.ts",
     exportName: "selfPortraits",
-    medium: "Self Portrait",
+    medium: "me irl",
     idPrefix: "sp",
   },
 ];
