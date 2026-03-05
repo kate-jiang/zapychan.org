@@ -68,7 +68,7 @@ const galleries: GalleryConfig[] = [
     thumbDir: "public/gallery/trash/thumbs",
     outputFile: "src/data/trashWorks.ts",
     exportName: "trashWorks",
-    medium: "Recycled",
+    medium: "trash",
     idPrefix: "tr",
   },
 ];
