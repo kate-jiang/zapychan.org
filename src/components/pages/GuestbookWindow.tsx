@@ -115,7 +115,7 @@ const LoadingText = styled.p`
 `;
 
 function formatDate(dateStr: string): string {
-  const d = new Date(dateStr + "Z");
+  const d = new Date(dateStr.replace(" ", "T") + (dateStr.includes("Z") ? "" : "Z"));
   return d.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
