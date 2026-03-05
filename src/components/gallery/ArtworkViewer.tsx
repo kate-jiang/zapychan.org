@@ -103,7 +103,7 @@ export function ArtworkViewer({ props }: ArtworkViewerProps) {
 
       <InfoBox variant="well">
         <Title>{artwork.title}</Title>
-        {artwork.medium !== "Animated GIF" && artwork.medium !== "Self Portrait" && (
+        {artwork.medium !== "Animated GIF" && artwork.medium !== "me irl" && artwork.medium !== "trash" && (
           <MetaRow>
             <strong>Date:</strong> {artwork.date || artwork.year}
           </MetaRow>
