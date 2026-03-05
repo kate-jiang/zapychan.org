@@ -75,7 +75,10 @@ const server = serve({
 
     "/audio/*": async (req) => {
       const url = new URL(req.url);
-      const filePath = path.join(publicDir, decodeURIComponent(url.pathname));
+      const filePath = path.resolve(publicDir, "." + decodeURIComponent(url.pathname));
+      if (!filePath.startsWith(publicDir)) {
+        return new Response("Forbidden", { status: 403 });
+      }
       const file = Bun.file(filePath);
       if (await file.exists()) {
         return new Response(file);
@@ -85,7 +88,10 @@ const server = serve({
 
     "/images/*": async (req) => {
       const url = new URL(req.url);
-      const filePath = path.join(publicDir, decodeURIComponent(url.pathname));
+      const filePath = path.resolve(publicDir, "." + decodeURIComponent(url.pathname));
+      if (!filePath.startsWith(publicDir)) {
+        return new Response("Forbidden", { status: 403 });
+      }
       const file = Bun.file(filePath);
       if (await file.exists()) {
         return new Response(file);
@@ -95,7 +101,10 @@ const server = serve({
 
     "/gallery/*": async (req) => {
       const url = new URL(req.url);
-      const filePath = path.join(publicDir, decodeURIComponent(url.pathname));
+      const filePath = path.resolve(publicDir, "." + decodeURIComponent(url.pathname));
+      if (!filePath.startsWith(publicDir)) {
+        return new Response("Forbidden", { status: 403 });
+      }
       const file = Bun.file(filePath);
       if (await file.exists()) {
         return new Response(file);
