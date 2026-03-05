@@ -125,17 +125,12 @@ export async function onRequestPost(context) {
       }
     }
 
-    // Insert entry
-    await env.DB.prepare(
-      "INSERT INTO guestbook (name, message, ip_hash) VALUES (?, ?, ?)"
+    // Insert entry and return it atomically
+    const newEntry = await env.DB.prepare(
+      "INSERT INTO guestbook (name, message, ip_hash) VALUES (?, ?, ?) RETURNING id, name, message, created_at"
     )
       .bind(name, message, ipHash)
-      .run();
-
-    // Return the new entry
-    const newEntry = await env.DB.prepare(
-      "SELECT id, name, message, created_at FROM guestbook ORDER BY id DESC LIMIT 1"
-    ).first();
+      .first();
 
     return new Response(JSON.stringify(newEntry), {
       status: 201,
