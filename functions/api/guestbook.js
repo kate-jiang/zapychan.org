@@ -108,14 +108,14 @@ export async function onRequestPost(context) {
         body: JSON.stringify({ input: `${name} ${message}` }),
       });
 
-      const modData = await modRes.json();
-
       if (!modRes.ok) {
         return new Response(
           JSON.stringify({ error: "Could not verify message. Please try again." }),
           { status: 503, headers }
         );
       }
+
+      const modData = await modRes.json();
 
       if (modData.results?.[0]?.flagged) {
         return new Response(
