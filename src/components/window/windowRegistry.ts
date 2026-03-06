@@ -19,11 +19,6 @@ export const windowRegistry: Record<
   links: lazy(() =>
     import("../pages/LinksWindow").then((m) => ({ default: m.LinksWindow })),
   ),
-  contact: lazy(() =>
-    import("../pages/ContactWindow").then((m) => ({
-      default: m.ContactWindow,
-    })),
-  ),
   artworkViewer: lazy(() =>
     import("../gallery/ArtworkViewer").then((m) => ({
       default: m.ArtworkViewer,
